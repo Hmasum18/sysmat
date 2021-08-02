@@ -50,7 +50,7 @@
 
 
         <!--Profile Card 5-->
-        <div class="col-md-4 mt-4 mx-4 mb4" >
+        <div class="col-md-3 mt-4 mx-4" >
             <div class="card profile-card-5">
                 <div class="card-img-block">
                     <img id="category-logo" class="card-img-top"

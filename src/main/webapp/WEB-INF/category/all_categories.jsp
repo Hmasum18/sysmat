@@ -26,11 +26,11 @@
             </c:if>
 
             <%--show categories--%>
-                <c:forEach items="${categoryList}" step="3" varStatus="i">
+                <c:forEach items="${categoryList}" step="4" varStatus="i">
                     <div class="row">
-                        <c:forEach items="${categoryList}" var="category" begin="${i.index}" end="${i.index+2}" varStatus="j">
+                        <c:forEach items="${categoryList}" var="category" begin="${i.index}" end="${i.index+3}" varStatus="j">
                             <%--category card--%>
-                            <div class="col-md-4 my-4" >
+                            <div class="col-md-3 my-4" >
                                 <div class="card profile-card-5">
                                     <div class="card-img-block">
                                         <img id="category-logo" class="card-img-top"

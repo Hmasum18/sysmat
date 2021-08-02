@@ -65,7 +65,7 @@ public class AdminController {
             }
         }
 
-        return "category/all_categories";
+        return "redirect:/admin/category/all";
     }
 
     @GetMapping("category/all")
