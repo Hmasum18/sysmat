@@ -1,0 +1,62 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'war'
+}
+
+group = 'io.github.hmasum18'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //for spring data jpa with hibernate
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    //for email verification
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    //for spring security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    //for spring web frontend
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    //dev tool for live reload and other dev
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    //postgresql
+    runtimeOnly 'org.postgresql:postgresql'
+
+    //tomcat server for local test
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //spring security
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    //jsp
+    compile 'org.apache.tomcat.embed:tomcat-embed-jasper'
+
+    //jstl
+    compile 'javax.servlet:jstl'
+
+    //sitemesh
+    compile 'org.sitemesh:sitemesh:3.0.1'
+
+    //for jwt token
+    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    // https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+}
+
+test {
+    useJUnitPlatform()
+}
