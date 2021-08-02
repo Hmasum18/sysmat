@@ -1,9 +1,12 @@
 package io.github.hmasum18.sysmat.model;
 
 import io.github.hmasum18.sysmat.config.WebConfiguration;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "category", schema = "public")
@@ -22,6 +25,13 @@ public class Category implements Serializable {
 
     @Column(nullable = false)
     private String logo;
+
+    @CreationTimestamp
+    private Date created;
+
+
+    @UpdateTimestamp
+    private Date updated;
 
     public int getId() {
         return id;
@@ -53,6 +63,22 @@ public class Category implements Serializable {
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
     }
 
     @Transient

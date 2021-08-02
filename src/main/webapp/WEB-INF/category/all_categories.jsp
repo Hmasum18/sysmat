@@ -27,7 +27,7 @@
 
             <%--show categories--%>
             <c:forEach items="${categoryList}" var="category" varStatus="i">
-                <!--Profile Card 5-->
+                <!--Category Card 5-->
                 <div class="col-md-4 mt-4 mx-4 mb4" >
                     <div class="card profile-card-5">
                         <div class="card-img-block">

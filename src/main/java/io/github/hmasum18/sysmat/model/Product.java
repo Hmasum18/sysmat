@@ -2,11 +2,14 @@ package io.github.hmasum18.sysmat.model;
 
 
 import io.github.hmasum18.sysmat.config.WebConfiguration;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,6 +42,13 @@ public class Product implements Serializable {
 
     @Column(nullable = false)
     private String location;
+
+    @CreationTimestamp
+    private Date created;
+
+
+    @UpdateTimestamp
+    private Date updated;
 
     public String getName() {
         return name;
@@ -152,4 +162,35 @@ public class Product implements Serializable {
         return imagePathList;
     }
 
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", category=" + category +
+                ", owner=" + owner +
+                ", images='" + images + '\'' +
+                ", mobileNumbers='" + mobileNumbers + '\'' +
+                ", location='" + location + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
+                '}';
+    }
 }

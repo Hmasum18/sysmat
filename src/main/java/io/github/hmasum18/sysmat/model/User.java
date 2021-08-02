@@ -40,17 +40,11 @@ public class User implements Serializable {
     @Version
     private int version;
 
-    /**
-     * Need to use @CreationTimestamp if mysql version is higher than 5.7
-     */
-    //@Temporal(value = TemporalType.TIMESTAMP)
+
     @CreationTimestamp
     private Date created;
 
-    /**
-     * Need to use @UpdateTimestamp if mysql version is higher than 5.7
-     */
-    //@Temporal(value = TemporalType.TIMESTAMP)
+
     @UpdateTimestamp
     private Date updated;
 
