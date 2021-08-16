@@ -55,10 +55,12 @@
                     <c:if test="${pageContext.request.userPrincipal.toString().contains(\"ROLE_ADMIN\")}">
                         <a class="nav-link active" aria-current="page" href="/admin/category/add">Add Category</a>
                         <a class="nav-link active" aria-current="page" href="/admin/category/all">Categories</a>
+                        <a class="nav-link active" aria-current="page" href="/admin/product/pending">Pending</a>
                     </c:if>
 
-
-                    <a class="nav-link active" aria-current="page" href="">My Products</a>
+                       <%-- options for both user and admin--%>
+                    <a class="nav-link active" aria-current="page" href="/user/product/add">Add product</a>
+                    <a class="nav-link active" aria-current="page" href="/user/product/all">My Products</a>
                     <a class="nav-link active" aria-current="page" href="">My account</a>
                 </div>
             </div>

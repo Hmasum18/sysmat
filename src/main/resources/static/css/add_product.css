@@ -1,0 +1,37 @@
+.address-search{
+    background: #fff;
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 0px 1px 5px 3px rgba(0, 0, 0, 0.12);
+}
+
+.address-search .address-autocomplete-box{
+    padding: 0px;
+    max-height: 280px;
+    overflow-y: auto;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.address-search.active .address-autocomplete-box{
+    padding: 10px 8px;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.address-search.active .address-autocomplete-box li{
+    display: block;
+}
+
+.address-autocomplete-box li{
+    list-style: none;
+    padding: 8px 12px;
+    width: 100%;
+    cursor: default;
+    border: 3px;
+    display: none;
+}
+
+.address-autocomplete-box li:hover{
+    background: #efefef;
+}

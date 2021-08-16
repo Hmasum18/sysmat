@@ -12,6 +12,11 @@
     <title>Add new category</title>
 </head>
 <body>
+
+<style>
+
+</style>
+
 <div class="container mt-4">
     <div class="row justify-content-center align-items-center">
         <div class="col-md-4 col-sm-6" >
@@ -23,7 +28,7 @@
                             type="text"
                             class="form-control"
                             id="inputCategoryName"
-                            placeholder="Book"/>
+                            placeholder="Book" required/>
                 </div>
                 <div class="mb-3">
                     <label for="inputCategoryDescription" class="form-label">Description*</label>
@@ -31,7 +36,7 @@
                             type="text"
                             class="form-control"
                             id="inputCategoryDescription"
-                            placeholder="Description here"/>
+                            placeholder="Description here" required/>
                 </div>
                 <div class="mb-3">
                     <label for="inputCategoryLogo" class="form-label">Logo Image</label>
@@ -39,7 +44,7 @@
                             type="file"
                             accept="image/*"
                             class="form-control form-control-sm"
-                            id="inputCategoryLogo"/>
+                            id="inputCategoryLogo" required/>
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">Add</button>
@@ -51,7 +56,7 @@
 
         <!--Profile Card 5-->
         <div class="col-md-3 mt-4 mx-4" >
-            <div class="card profile-card-5">
+            <div class="card category-card">
                 <div class="card-img-block">
                     <img id="category-logo" class="card-img-top"
                         src="https://cdn.icon-icons.com/icons2/1147/PNG/512/1486486297-attribute-category-label-shop-price-price-tag-tag_81213.png"
@@ -59,9 +64,8 @@
                          alt="Card image cap">
                 </div>
                 <div class="card-body pt-0">
-                    <h5 class="card-title" id="cardCategoryName">Category Name</h5>
-                    <p class="card-text" id="cardCategoryDescription">Category Description goes here</p>
-
+                    <h5 class="card-title" id="cardCategoryName">Category name here</h5>
+                    <p class="card-text" id="cardCategoryDescription">Category description here</p>
                 </div>
             </div>
         </div>
@@ -75,16 +79,18 @@
         categoryNameField.addEventListener("change", function (){
             const categoryName = categoryNameField.value;
             console.log(categoryName);
-            cardCategoryName.innerText = categoryName;
+            cardCategoryName.innerText = categoryName === ""?
+                                        "Category name here" : categoryName;
         });
 
         // render category description
         const categoryDescriptionField = document.getElementById("inputCategoryDescription");
         const cardCategoryDescription = document.getElementById("cardCategoryDescription");
         categoryDescriptionField.addEventListener("change", function (){
-            const categoryName = categoryDescriptionField.value;
-            console.log(categoryName);
-            cardCategoryDescription.innerText = categoryName;
+            const categoryDescription = categoryDescriptionField.value;
+            //console.log(categoryName);
+            cardCategoryDescription.innerText = categoryDescription === "" ?
+                                    "Category description Here" : categoryDescription;
         });
 
         // render the image file in image view

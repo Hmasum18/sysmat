@@ -2,6 +2,7 @@ package io.github.hmasum18.sysmat.controller;
 
 import io.github.hmasum18.sysmat.config.WebConfiguration;
 import io.github.hmasum18.sysmat.model.Category;
+import io.github.hmasum18.sysmat.model.Product;
 import io.github.hmasum18.sysmat.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,8 @@ public class AdminController {
 
     @Autowired
     CategoryRepository categoryRepository;
+
+    // ======================= category routes =========================================
 
     @GetMapping("/category/add")
     public String addCategory(ModelMap modelMap){
@@ -69,9 +72,14 @@ public class AdminController {
     }
 
     @GetMapping("category/all")
-    public String getAllCategories(ModelMap modelMap){
+    public String getAllCategories(ModelMap modelMap) {
         List<Category> categoryList = categoryRepository.findAll();
         modelMap.put("categoryList", categoryList);
         return "category/all_categories";
+    }
+
+    @GetMapping("product/pending")
+    public String getPendingProducts(ModelMap modelMap){
+        return "product/all_products";
     }
 }

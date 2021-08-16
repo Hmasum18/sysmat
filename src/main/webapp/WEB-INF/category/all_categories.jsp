@@ -31,7 +31,7 @@
                         <c:forEach items="${categoryList}" var="category" begin="${i.index}" end="${i.index+3}" varStatus="j">
                             <%--category card--%>
                             <div class="col-md-3 my-4" >
-                                <div class="card profile-card-5">
+                                <div class="card category-card">
                                     <div class="card-img-block">
                                         <img id="category-logo" class="card-img-top"
                                              src="${category.getLogoImagePath()}"

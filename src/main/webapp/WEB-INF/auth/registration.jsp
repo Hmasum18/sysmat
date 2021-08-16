@@ -15,7 +15,6 @@
             <legend>Create New Account</legend>
 
             <form:form method="POST" modelAttribute="user" class="form-signin">
-
                 <div class="mb-3">
                     <div>
                         <form:input type="text"
@@ -43,7 +42,7 @@
                     </div>
 
                     <div style="margin-top: 5px">
-                        <form:errors path="username" cssClass="alert alert-danger form-control"/>
+                        <form:errors path="login" cssClass="alert alert-danger form-control"/>
                     </div>
                 </div>
 

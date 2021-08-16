@@ -42,7 +42,7 @@ public class AuthController {
                                BindingResult bindingResult) {
 
         if (foundDuplicateUsername(user.getUsername())) {
-            bindingResult.rejectValue("username", "", "This username has already been taken!");
+            bindingResult.rejectValue("usernameError", "", "This username has already been taken!");
         }
 
         if (bindingResult.hasErrors()) {
