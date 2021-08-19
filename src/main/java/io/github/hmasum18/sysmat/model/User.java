@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(schema = "public", name = "tutorial_user")
+@Table(schema = "public", name = "user")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -140,7 +140,7 @@ public class User implements Serializable {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
+                /*", password='" + password + '\'' +*/
                 ", verified=" + verified +
                 ", roles='" + roles + '\'' +
                 ", version=" + version +
