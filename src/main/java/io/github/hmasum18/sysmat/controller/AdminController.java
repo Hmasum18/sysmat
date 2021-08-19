@@ -41,7 +41,7 @@ public class AdminController {
         if(logoImageFile!=null){
             String logoImageFileName = StringUtils.cleanPath(logoImageFile.getOriginalFilename());
             category.setLogo(logoImageFileName);
-            System.out.println("#addCategory(): logo path"+logoImageFileName);
+            System.out.println("#addCategory(): logo path:"+logoImageFileName);
 
             //save the product
 

@@ -13,7 +13,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update # update the scheme if necessary
+      ddl-auto: create # update the scheme if necessary
     properties:
       format-sql: true
 logging:
