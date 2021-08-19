@@ -56,12 +56,12 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     // https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
+
+    //heroku deployment
+    compile 'com.github.jsimone:webapp-runner:8.5.11.3'
 }
 
 //https://devcenter.heroku.com/articles/deploying-gradle-apps-on-heroku
-dependencies {
-    compile 'com.github.jsimone:webapp-runner:8.5.11.3'
-}
 
 task stage() {
     dependsOn clean, war
