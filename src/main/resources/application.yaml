@@ -9,12 +9,6 @@ spring:
     restart:
       additional-paths: src/main/webapp
 
-  # postgres database
-  datasource:
-    url: ${db-url}
-    username: ${db-username}
-    password: ${db-password}
-
   # config jpa
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect

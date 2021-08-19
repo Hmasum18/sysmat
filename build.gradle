@@ -32,10 +32,6 @@ dependencies {
     //postgresql
     runtimeOnly 'org.postgresql:postgresql'
 
-    //tomcat server for local test
-    //providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-
-
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     //spring security
