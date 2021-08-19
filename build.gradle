@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.5.2'
+    id 'org.springframework.boot' version '2.4.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id 'war'
@@ -28,13 +28,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     //dev tool for live reload and other dev
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+   // developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     //postgresql
     runtimeOnly 'org.postgresql:postgresql'
 
     //tomcat server for local test
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+   //providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -57,12 +57,15 @@ dependencies {
     // https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
 
-    //heroku deployment
-    compile 'com.github.jsimone:webapp-runner:8.5.11.3'
+    /*//heroku deployment
+    compile 'com.github.jsimone:webapp-runner:8.5.11.3'*/
+
 }
 
 //https://devcenter.heroku.com/articles/deploying-gradle-apps-on-heroku
-
+dependencies {
+    compile 'com.github.jsimone:webapp-runner:8.5.11.3'
+}
 task stage() {
     dependsOn clean, war
 }
