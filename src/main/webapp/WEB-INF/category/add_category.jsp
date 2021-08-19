@@ -50,6 +50,13 @@
                             class="form-control form-control-sm"
                             id="inputCategoryLogo" required/>
 
+                    <div class="my-3">
+                        <div class="progress">
+                            <div id="imageUploadProgressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+
+
                     <%--Category.logo--%>
                     <input type="hidden" id="logoUrl" name="logo" value="">
                 </div>
@@ -146,13 +153,6 @@
             if (this.files && this.files[0]) {
 
                 uploadToFirebase(this.files[0], function (imageUrl){
-                    /*const reader = new FileReader();
-
-                    reader.onload = function(e) {
-
-                    }
-
-                    reader.readAsDataURL(file);*/
                     console.log("adding image url to src")
                     preview.setAttribute('src', imageUrl);
                 });
@@ -173,12 +173,36 @@
             const currentDate = new Date().getTime();
             const spaceRef = imagesStorageRef.child(currentDate+"-"+fileName);
 
-            const uploadTask = spaceRef.put(file)
-                .then(function (snapshot) {
+            const uploadTask = spaceRef.put(file);
+               /* .then(function (snapshot) {
                     console.info("image uploaded in firebase");
                     // Handle successful uploads on complete
                     // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-                    snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        console.log('File available at', downloadURL);
+
+                        const logUrlInputField = document.querySelector("#logoUrl")
+                        logUrlInputField.setAttribute("value", downloadURL);
+
+                        onUploadSuccess(downloadURL);
+                })*/
+
+
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    // Observe state change events such as progress, pause, and resume
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                    let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                    const imageUploadProgressBar = document.querySelector("#imageUploadProgressBar");
+                    imageUploadProgressBar.setAttribute("style","width: "+progress+"%;");
+                    imageUploadProgressBar.setAttribute("aria-valuenow", progress+"");
+                },
+                (error) => {
+                    // Handle unsuccessful uploads
+                },
+                () => {
+                       uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                         console.log('File available at', downloadURL);
 
                         const logUrlInputField = document.querySelector("#logoUrl")
@@ -186,9 +210,8 @@
 
                         onUploadSuccess(downloadURL);
                     });
-                })
-
-
+                }
+            );
         }
     </script>
 </div>
