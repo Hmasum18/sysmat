@@ -11,13 +11,6 @@
     <title>SysMat</title>
 </head>
 <body>
-    <h3>Hey "${role}"</h3>
-    <%
-        out.println("Your IP address is: "+request.getRemoteAddr());
-    %><br>
-    <%
-        out.println("Your username is: "+request.getRemoteUser());
-    %>
-    <p>Today's date: <%= new java.util.Date()%></p>
+
 </body>
 </html>

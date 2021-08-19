@@ -21,17 +21,21 @@
     <div class="row justify-content-center align-items-center">
         <div class="col-md-4 col-sm-6" >
 
-            <form method="POST" enctype="multipart/form-data">
+            <form method="POST">
                 <div class="mb-3">
                     <label for="inputCategoryName" class="form-label">Category Name*</label>
+                    <%--Category.name--%>
                     <input  name="name"
                             type="text"
                             class="form-control"
                             id="inputCategoryName"
                             placeholder="Book" required/>
                 </div>
+
+
                 <div class="mb-3">
                     <label for="inputCategoryDescription" class="form-label">Description*</label>
+                    <%--Category.description--%>
                     <input name="description"
                             type="text"
                             class="form-control"
@@ -45,6 +49,9 @@
                             accept="image/*"
                             class="form-control form-control-sm"
                             id="inputCategoryLogo" required/>
+
+                    <%--Category.logo--%>
+                    <input type="hidden" id="logoUrl" name="logo" value="">
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">Add</button>
@@ -72,6 +79,8 @@
 
 
     </div>
+
+
     <script>
         // render the category name
         const categoryNameField = document.getElementById("inputCategoryName");
@@ -93,29 +102,94 @@
                                     "Category description Here" : categoryDescription;
         });
 
-        // render the image file in image view
-        const imageInputField = document.getElementById("inputCategoryLogo")
-        const preview = document.getElementById("category-logo")
 
-        imageInputField.addEventListener("change", function() {
-            console.log("on change")
-            if (this.files && this.files[0]) {
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    console.log("adding src")
-                    preview.setAttribute('src', e.target.result);
-                }
-
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
 
         // front end validation
         function validate(){
 
         }
 
+    </script>
+
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-storage.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+
+   <%-- uploading image in firebase and--%>
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "${firebaseApiKey}",
+            authDomain: "fir-tutorial-one-74d1a.firebaseapp.com",
+            databaseURL: "https://fir-tutorial-one-74d1a.firebaseio.com",
+            projectId: "fir-tutorial-one-74d1a",
+            storageBucket: "fir-tutorial-one-74d1a.appspot.com",
+            messagingSenderId: "757955193464",
+            appId: "1:757955193464:web:0374488198ec678344db8d"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        console.log("firebase initialized.")
+
+
+        // render the image file in image view
+        const imageInputField = document.getElementById("inputCategoryLogo")
+        const preview = document.getElementById("category-logo")
+
+        imageInputField.addEventListener("change", function() {
+            console.log("image selected for logo")
+            if (this.files && this.files[0]) {
+
+                uploadToFirebase(this.files[0], function (imageUrl){
+                    /*const reader = new FileReader();
+
+                    reader.onload = function(e) {
+
+                    }
+
+                    reader.readAsDataURL(file);*/
+                    console.log("adding image url to src")
+                    preview.setAttribute('src', imageUrl);
+                });
+
+            }
+        });
+
+        function uploadToFirebase(file, onUploadSuccess){
+            const fileName = file.name;
+
+            // Points to the root reference
+            const storageRef = firebase.storage().ref();
+
+            // Points to 'images'
+            const imagesStorageRef = storageRef.child('images');
+
+            // space ref where image will be stored
+            const currentDate = new Date().getTime();
+            const spaceRef = imagesStorageRef.child(currentDate+"-"+fileName);
+
+            const uploadTask = spaceRef.put(file)
+                .then(function (snapshot) {
+                    console.info("image uploaded in firebase");
+                    // Handle successful uploads on complete
+                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                    snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        console.log('File available at', downloadURL);
+
+                        const logUrlInputField = document.querySelector("#logoUrl")
+                        logUrlInputField.setAttribute("value", downloadURL);
+
+                        onUploadSuccess(downloadURL);
+                    });
+                })
+
+
+        }
     </script>
 </div>
 </body>

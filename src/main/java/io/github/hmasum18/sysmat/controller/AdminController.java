@@ -5,23 +5,17 @@ import io.github.hmasum18.sysmat.model.Category;
 import io.github.hmasum18.sysmat.model.Product;
 import io.github.hmasum18.sysmat.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @Controller
 @RequestMapping("admin")
 public class AdminController {
+    @Value("${firebase-api-key}")
+    private String firebaseApiKey;
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -29,49 +23,24 @@ public class AdminController {
     // ======================= category routes =========================================
 
     @GetMapping("/category/add")
-    public String addCategory(ModelMap modelMap){
+    public String addCategory(ModelMap modelMap) {
         modelMap.put("category", new Category());
+        modelMap.put("firebaseApiKey", firebaseApiKey);
         return "category/add_category";
     }
 
     @PostMapping("/category/add")
-    public String addCategory(@ModelAttribute(name="category")Category category
-                                , @RequestParam("logoFile")MultipartFile logoImageFile){
-        System.out.println("#addCategory(): category:"+category);
-        if(logoImageFile!=null){
-            String logoImageFileName = StringUtils.cleanPath(logoImageFile.getOriginalFilename());
-            category.setLogo(logoImageFileName);
-            System.out.println("#addCategory(): logo path:"+logoImageFileName);
+    public String addCategory(@ModelAttribute(name = "category") Category category) {
+        System.out.println("#addCategory(): category:" + category);
 
-            //save the product
+        //save the product
+        category = categoryRepository.save(category);
+        System.out.println(category);
 
-            category =  categoryRepository.save(category);
-            System.out.println(category);
+        System.out.println("#addCategory(): saved category:" + category);
 
-            // product = productRepository.findProductByProduct_name(product.getProduct_name());
-
-            System.out.println("#addCategory(): category:"+category);
-
-            try {
-                String fileSaveDir = WebConfiguration.IMAGE_UPLOAD_ROOT_PATH
-                        +"/category/"+category.getId()+"-"+category.getName();
-                Path fileSaveDirPath = Paths.get(fileSaveDir);
-                if(!Files.exists(fileSaveDirPath)){
-                    Files.createDirectories(fileSaveDirPath);
-                }
-
-                InputStream inputStream = logoImageFile.getInputStream();
-                Path filePath = fileSaveDirPath.resolve(logoImageFileName);
-                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-                System.out.println("logo image saved");
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("image was not saved");
-            }
-        }
-
-        return "redirect:/admin/category/all";
-    }
+        return"redirect:/admin/category/all";
+}
 
     @GetMapping("category/all")
     public String getAllCategories(ModelMap modelMap) {
@@ -81,7 +50,7 @@ public class AdminController {
     }
 
     @GetMapping("product/pending")
-    public String getPendingProducts(ModelMap modelMap){
+    public String getPendingProducts(ModelMap modelMap) {
         return "product/all_products";
     }
 }

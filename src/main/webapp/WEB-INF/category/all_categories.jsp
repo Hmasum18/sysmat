@@ -19,7 +19,7 @@
         <div class="mb-3">
 
             <%--error--%>
-            <c:if test="${categoryList.size() == 0}">
+            <c:if test="${categoryList ==null || categoryList.size() == 0}">
                 <div class="alert alert-info" role="alert">
                     No category.
                 </div>
@@ -34,7 +34,7 @@
                                 <div class="card category-card">
                                     <div class="card-img-block">
                                         <img id="category-logo" class="card-img-top"
-                                             src="${category.getLogoImagePath()}"
+                                             src="${category.getLogo()}"
                                              alt="Card image cap">
                                     </div>
                                     <div class="card-body pt-0">

@@ -81,14 +81,6 @@ public class Category implements Serializable {
         this.updated = updated;
     }
 
-    @Transient
-    public String getLogoImagePath(){
-        if(logo == null){
-            return null;
-        }
-        return "/uploaded-images"+"/category/"+id+"-"+name+"/"+logo;
-    }
-
     @Override
     public String toString() {
         return "Category{" +
