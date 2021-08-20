@@ -58,7 +58,7 @@
 
 
                     <%--Category.logo--%>
-                    <input type="hidden" id="logoUrl" name="logo" value="">
+                    <input type="hidden" id="categoryLogoUrl" name="logo" value="">
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">Add</button>
@@ -73,7 +73,7 @@
             <div class="card category-card">
                 <div class="card-img-block">
                     <img id="category-logo" class="card-img-top"
-                        src="https://cdn.icon-icons.com/icons2/1147/PNG/512/1486486297-attribute-category-label-shop-price-price-tag-tag_81213.png"
+                         src="https://firebasestorage.googleapis.com/v0/b/fir-tutorial-one-74d1a.appspot.com/o/images%2F1629406343438-teacher.png?alt=media&token=8655567b-55f4-4ba8-85e8-7ed0b42b574e"
                          style="max-width: 40rem; max-height: 40rem"
                          alt="Card image cap">
                 </div>
@@ -87,6 +87,33 @@
 
     </div>
 
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-storage.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "${firebaseApiKey}",
+            authDomain: "${firebaseProjectId}"+".firebaseapp.com",
+            databaseURL: "${firebaseProjectId}" +".firebaseio.com",
+            projectId:  "${firebaseProjectId}",
+            storageBucket:  "${firebaseProjectId}"+".appspot.com",
+            messagingSenderId: "${messagingSenderId}",
+            appId: "${firebaseAppId}"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        console.log("firebase initialized.")
+    </script>
+
+
+    <%-- uploading image in firebase and--%>
+    <script src="/js/firebase.js"/>
 
     <script>
         // render the category name
@@ -119,100 +146,13 @@
     </script>
 
 
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-storage.js"></script>
-
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-         https://firebase.google.com/docs/web/setup#available-libraries -->
-
-   <%-- uploading image in firebase and--%>
     <script>
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "${firebaseApiKey}",
-            authDomain: "fir-tutorial-one-74d1a.firebaseapp.com",
-            databaseURL: "https://fir-tutorial-one-74d1a.firebaseio.com",
-            projectId: "fir-tutorial-one-74d1a",
-            storageBucket: "fir-tutorial-one-74d1a.appspot.com",
-            messagingSenderId: "757955193464",
-            appId: "1:757955193464:web:0374488198ec678344db8d"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        console.log("firebase initialized.")
-
-
         // render the image file in image view
         const imageInputField = document.getElementById("inputCategoryLogo")
         const preview = document.getElementById("category-logo")
+        const hiddenImageUrlHolderInputField = document.getElementById("categoryLogoUrl");
 
-        imageInputField.addEventListener("change", function() {
-            console.log("image selected for logo")
-            if (this.files && this.files[0]) {
-
-                uploadToFirebase(this.files[0], function (imageUrl){
-                    console.log("adding image url to src")
-                    preview.setAttribute('src', imageUrl);
-                });
-
-            }
-        });
-
-        function uploadToFirebase(file, onUploadSuccess){
-            const fileName = file.name;
-
-            // Points to the root reference
-            const storageRef = firebase.storage().ref();
-
-            // Points to 'images'
-            const imagesStorageRef = storageRef.child('images');
-
-            // space ref where image will be stored
-            const currentDate = new Date().getTime();
-            const spaceRef = imagesStorageRef.child(currentDate+"-"+fileName);
-
-            const uploadTask = spaceRef.put(file);
-               /* .then(function (snapshot) {
-                    console.info("image uploaded in firebase");
-                    // Handle successful uploads on complete
-                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-                        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                        console.log('File available at', downloadURL);
-
-                        const logUrlInputField = document.querySelector("#logoUrl")
-                        logUrlInputField.setAttribute("value", downloadURL);
-
-                        onUploadSuccess(downloadURL);
-                })*/
-
-
-            uploadTask.on('state_changed',
-                (snapshot) => {
-                    // Observe state change events such as progress, pause, and resume
-                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                    let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
-                    const imageUploadProgressBar = document.querySelector("#imageUploadProgressBar");
-                    imageUploadProgressBar.setAttribute("style","width: "+progress+"%;");
-                    imageUploadProgressBar.setAttribute("aria-valuenow", progress+"");
-                },
-                (error) => {
-                    // Handle unsuccessful uploads
-                },
-                () => {
-                       uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                        console.log('File available at', downloadURL);
-
-                        const logUrlInputField = document.querySelector("#logoUrl")
-                        logUrlInputField.setAttribute("value", downloadURL);
-
-                        onUploadSuccess(downloadURL);
-                    });
-                }
-            );
-        }
+        onImageSelected(imageInputField, preview, hiddenImageUrlHolderInputField);
     </script>
 </div>
 </body>

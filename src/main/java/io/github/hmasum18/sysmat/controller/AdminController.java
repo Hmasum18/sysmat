@@ -4,6 +4,7 @@ import io.github.hmasum18.sysmat.config.WebConfiguration;
 import io.github.hmasum18.sysmat.model.Category;
 import io.github.hmasum18.sysmat.model.Product;
 import io.github.hmasum18.sysmat.repository.CategoryRepository;
+import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,15 @@ public class AdminController {
     @Value("${firebase-api-key}")
     private String firebaseApiKey;
 
+    @Value("${firebase-project-id}")
+    private String firebaseProjectId;
+
+    @Value("${firebase-message-sender-id}")
+    private String messagingSenderId;
+
+    @Value("${firebase-app-id}")
+    private String firebaseAppId;
+
     @Autowired
     CategoryRepository categoryRepository;
 
@@ -25,8 +35,17 @@ public class AdminController {
     @GetMapping("/category/add")
     public String addCategory(ModelMap modelMap) {
         modelMap.put("category", new Category());
-        modelMap.put("firebaseApiKey", firebaseApiKey);
+
+        putFirebaseCredentials(modelMap);
+
         return "category/add_category";
+    }
+
+    private void putFirebaseCredentials(ModelMap modelMap){
+        modelMap.put("firebaseApiKey", firebaseApiKey);
+        modelMap.put("firebaseProjectId", firebaseProjectId);
+        modelMap.put("messagingSenderId", messagingSenderId);
+        modelMap.put("firebaseAppId", firebaseAppId);
     }
 
     @PostMapping("/category/add")
