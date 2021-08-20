@@ -22,6 +22,10 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    public Optional<User> findByUserEmail(String email){
+        return userRepository.findByEmail(email);
+    }
+
     @Transactional
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));

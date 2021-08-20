@@ -25,11 +25,14 @@ public class User implements Serializable {
     @Column(columnDefinition = "text", nullable = false, unique = true)
     private String username;
 
-    @Column(columnDefinition = "text", nullable = false, unique = true)
-    private String login; // email or phone number
+    @Column(name = "login", columnDefinition = "text", nullable = false, unique = true)
+    private String email; // email or phone number
 
     @Column(columnDefinition = "text", nullable = false)
     private String password;
+
+    @Column(columnDefinition = "text")
+    private String verificationCode;
 
     @Column(columnDefinition = "boolean", nullable = false)
     private boolean verified;
@@ -64,12 +67,12 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    public String getLogin() {
-        return login;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -78,6 +81,14 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
     }
 
     public boolean isVerified() {
@@ -120,6 +131,7 @@ public class User implements Serializable {
         this.updated = updated;
     }
 
+    @Transient
     public UserDetails buildUserDetails(){
         Set<GrantedAuthority> grantedAuthorities = Arrays.stream(roles.split(","))
                 .map(SimpleGrantedAuthority::new)
@@ -139,7 +151,7 @@ public class User implements Serializable {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", login='" + login + '\'' +
+                ", login='" + email + '\'' +
                 /*", password='" + password + '\'' +*/
                 ", verified=" + verified +
                 ", roles='" + roles + '\'' +

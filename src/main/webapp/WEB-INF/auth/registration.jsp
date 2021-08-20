@@ -14,53 +14,65 @@
         <div class="col-md-4">
             <legend>Create New Account</legend>
 
-            <form:form method="POST" modelAttribute="user" class="form-signin">
+            <form method="POST" class="form-signin">
                 <div class="mb-3">
                     <div>
-                        <form:input type="text"
-                                    path="username"
-                                    class="form-control"
-                                    placeholder="Username"
-                                    autofocus="true"/>
+                        <input type="text"
+                               name="username"
+                               class="form-control"
+                               placeholder="Username"
+                               autofocus="true" required/>
 
                     </div>
 
                     <div style="margin-top: 5px">
-                        <form:errors path="username" cssClass="alert alert-danger form-control"/>
+                        <c:if test="${usernameError!=null}">
+                            <div class="alert alert-danger" role="alert">
+                                    ${usernameError}
+                            </div>
+                        </c:if>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <div>
-                            <%--login field of a user--%>
-                        <form:input type="text"
-                                    path="login"
-                                    class="form-control"
-                                    placeholder="Email"
-                                    autofocus="true"/>
+                        <%--login field of a user--%>
+                        <input type="text"
+                               name="email"
+                               class="form-control"
+                               placeholder="Email"
+                               autofocus="true" required/>
 
                     </div>
 
                     <div style="margin-top: 5px">
-                        <form:errors path="login" cssClass="alert alert-danger form-control"/>
+                        <c:if test="${emailError!=null}">
+                            <div class="alert alert-danger" role="alert">
+                                    ${emailError}
+                            </div>
+                        </c:if>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <div>
-                        <form:input type="password"
-                                    path="password"
-                                    class="form-control"
-                                    placeholder="Password"/>
+                        <input type="password"
+                               name="password"
+                               class="form-control"
+                               placeholder="Password" required/>
                     </div>
 
                     <div style="margin-top: 5px">
-                        <form:errors path="password" cssClass="form-control alert alert-danger"/>
+                        <c:if test="${passwordError!=null}">
+                            <div class="alert alert-danger" role="alert">
+                                    ${passwordError}
+                            </div>
+                        </c:if>
                     </div>
                 </div>
 
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-            </form:form>
+            </form>
 
             <div class="mb-3" style="margin-top: 10px">
                 <a href="/auth/login">Already have an account? Sign in here!</a>

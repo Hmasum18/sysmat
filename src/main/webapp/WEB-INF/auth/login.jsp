@@ -26,11 +26,51 @@
                     </div>
                 </c:if>
 
+                <c:if test="${verifiedFailed!=null}">
+                    <div class="alert alert-danger" role="alert">
+                            ${verifiedFailed}
+                    </div>
+                </c:if>
+
+
                 <c:if test="${logout != null}">
                     <div class="alert alert-success" role="alert">
                             ${logout}
                     </div>
                 </c:if>
+
+                <c:if test="${VERIFICATION_SENT!= null}">
+                    <div class="alert alert-success" role="alert">
+                            ${VERIFICATION_SENT}
+                    </div>
+                </c:if>
+
+                <c:if test="${VERIFICATION_SUCCESS!= null}">
+                    <div class="alert alert-success" role="alert">
+                            ${VERIFICATION_SUCCESS}
+                    </div>
+                </c:if>
+
+                <c:if test="${NOT_VERIFIED!=null}">
+                    <div class="alert alert-danger" role="alert">
+                            ${NOT_VERIFIED}
+                    </div>
+                </c:if>
+
+
+                <c:if test="${VERIFIED!=null}">
+                    <div class="alert alert-danger" role="alert">
+                            ${VERIFIED}
+                    </div>
+                </c:if>
+
+                <c:if test="${VERIFICATION_FAILED!=null}">
+                    <div class="alert alert-danger" role="alert">
+                            ${VERIFICATION_FAILED}
+                    </div>
+                </c:if>
+
+
             </div>
 
             <form:form method="POST" modelAttribute="user">

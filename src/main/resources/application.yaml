@@ -16,19 +16,24 @@ spring:
       ddl-auto: update # update the scheme if necessary
     properties:
       format-sql: true
+    show-sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+
 logging:
   level:
     org:
       hibernate:
         SQL: DEBUG
 
-  servlet:
-    multipart:
-      max-file-size: 1MB
-      max-request-size: 1MB
+    # spring mail properties
 
-  # security config
-#  security:
-#    user:
-#      name: masum
-#      password: masum

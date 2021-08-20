@@ -4,6 +4,7 @@ import io.github.hmasum18.sysmat.model.User;
 import io.github.hmasum18.sysmat.repository.UserRepository;
 import io.github.hmasum18.sysmat.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,16 +23,22 @@ public class MyUserDetailsService implements UserDetailsService {
     JwtUtil jwtUtil;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws AuthenticationException {
         //return new SysMatUserDetails(username);
         Optional<User> optionalUser = userRepository.findByUsername(username);
 
         if(!optionalUser.isPresent())
             System.out.println(TAG+username+" not found.");
-        else
+        else{
+            if(!optionalUser.get().isVerified()){
+                System.out.println(TAG+username+" found. But nof verified.");
+                throw new UsernameNotFoundException(username+" not verified.");
+            }
             System.out.println(TAG+username+" found");
+        }
 
-        optionalUser.orElseThrow(()-> new UsernameNotFoundException(username+" not found."));
+
+        optionalUser.orElseThrow(()-> new UsernameNotFoundException(username+" not found.", new Throwable(username+" not found.")));
 
         User user = optionalUser.get();
         System.out.println(TAG+user);
