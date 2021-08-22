@@ -15,50 +15,57 @@
 </head>
 <body>
 <div class="container mt-4">
-    <div class="row justify-content-center align-items-center">
+    <div class="row justify-content-center">
         <div class="col-md-4 col-sm-6">
-            <form:form modelAttribute="product" method="post" enctype="multipart/form-data">
+            <form method="post">
                 <div class="mb-3">
-                    <label for="inputCategoryName" class="form-label">Product Name*</label>
-                    <form:input path="name" name="name"
+                    <label for="inputProductName" class="form-label">Product Name*</label>
+                    <%--product name--%>
+                    <input name="name"
                                 type="text"
                                 class="form-control"
-                                id="inputCategoryName"
-                                placeholder="Name   "/>
+                                id="inputProductName"
+                                placeholder="Name" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="inputCategoryDescription" class="form-label">Description*</label>
-                    <form:input path="description" name="description"
+                    <label for="inputProductDescription" class="form-label">Description*</label>
+                    <%--product description--%>
+                    <input name="description"
                                 type="text"
                                 class="form-control"
-                                id="inputCategoryDescription"
-                                placeholder="Description here"/>
+                                id="inputProductDescription"
+                                placeholder="Description here" required>
                 </div>
 
-                <label for="selectCategory" class="form-label">Category*</label>
+                <label for="inputProductCategory" class="form-label">Category*</label>
                 <div class="mb-3">
-                    <form:select path="category" name="category" id="selectCategory"
+                    <%--product category--%>
+                    <select name="categoryId" id="inputProductCategory"
                                  class="form-select form-select-sm"
-                                 aria-label=".form-select-sm example">
-                        <option selected>None</option>
-                        <c:forEach items="${categoryList}" var="category" varStatus="i">
-                            <form:option value="${category}">${category.name}</form:option>
+                                 aria-label=".form-select-sm example" required>
+
+                        <c:forEach items="${categoryList}" var="product" varStatus="i">
+                            <c:if test="${product.name.equalsIgnoreCase(\"book\")}">
+                                <option selected value="${product.id}">${product.name}</option>
+                            </c:if>
+                            <c:if test="${!product.name.equalsIgnoreCase(\"book\")}">
+                                <option value="${product.id}">${product.name}</option>
+                            </c:if>
                         </c:forEach>
-                    </form:select>
+                    </select>
                 </div>
 
                 <div class="mb-3">
-                    <label for="address-input" class="form-label">Location*</label>
+                    <label for="inputProductAddress" class="form-label">Location*</label>
+                    <%--location--%>
                     <input name="location"
                                 type="search"
                                 class="form-control"
-                                id="address-input"
-                                placeholder="Location"/>
+                                id="inputProductAddress"
+                                placeholder="Location" required>
                     <div class="address-search">
                         <div class="address-autocomplete-box">
-                            <li>Dhaka</li>
-                            <li>Chittagong</li>
                         </div>
                     </div>
 
@@ -66,21 +73,33 @@
 
 
                 <div class="mb-3">
-                    <label for="inputCategoryLogo" class="form-label">Logo Image*</label>
+                    <label for="inputProductImage" class="form-label">Logo Image*</label>
                     <input name="logoFile"
                            type="file"
                            accept="image/*"
                            class="form-control form-control-sm"
-                           id="inputCategoryLogo" required/>
+                           id="inputProductImage" required/>
+                    <div class="my-3">
+                        <div class="progress">
+                            <div id="imageUploadProgressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+
+                    <%--Product.logo--%>
+                    <input type="hidden" id="productImageUrl" name="images" value="">
+                </div>
+
+                <div class="mb-3">
+                    <label for="inputContactNumber" class="form-label">Contact number*</label>
+                    <input name="mobileNumbers"
+                    type="number" class="form-control form-control-sm" id="inputContactNumber" required>
                 </div>
 
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">Add</button>
                 </div>
-            </form:form>
-
+            </form>
         </div>
-
 
         <!--Profile Card 5-->
         <%--https://codepen.io/halidaa/pen/GGZqqg--%>
@@ -91,38 +110,88 @@
 
                 <img id="productCardImage" src="https://image.flaticon.com/icons/png/512/1170/1170577.png" alt="Product image">
                 <div class="card-content">
-                    <p class="category-name">Category</p>
-                    <h2>Product name here</h2>
-                    <p id="productLocation">Location</p>
-                    <p class="date">Upload time</p>
+                    <p class="category-name" id="productCardCategoryName">Category</p>
+                    <h2 id="productCardProductName">Product name here</h2>
+                    <p id="productLocation">Product location here</p>
+                    <p class="read-more" id="productCardContactNumber">Contact here</p>
                     <div class="description">
-                        <p>Product description here.</p>
-                        <p>The post
-                            <a href="https://www.soompi.com/article/1481537wpp/9-k-pop-songs-that-incorporated-sign-language-in-their-performance">
-                                9 K-Pop Songs That Incorporated Sign Language In Their Performance</a>
-                            appeared first on <a href="https://www.soompi.com">Soompi</a></p>
-                        <p class="read-more"><a target="_blank" rel="noreferrer noopener"
-                                                href="https://www.soompi.com/article/1481537wpp/9-k-pop-songs-that-incorporated-sign-language-in-their-performance">Read
-                            Full Article</a></p>
+                        <p id="productCardDescription">Product description here.</p>
+                        <p></p>
+                        <p class="date" id="productCardDate">Upload time</p>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+
+
+
+
+    <%--product card info update--%>
+    <script>
+        //https://awesomeopensource.com/project/algolia/places
+        //https://www.algolia.com/apps/VG3P3EKYOE/api-keys/all
+        $("#product .product-card-body").click(function () {
+            $(this).find(".card-content").toggleClass("open");
+        })
+
+        // set product name to the card when changes
+        $("#inputProductName").keyup(function(element){
+            //console.log(element.target.value)
+            let productName = element.target.value;
+            productName = productName? productName : "Product name here";
+            $('#productCardProductName').text(productName);
+        })
+
+
+        $("#inputProductDescription").keyup(function(element){
+            let productDes = element.target.value;
+            productDes= productDes? productDes : "Product description here";
+            $('#productCardDescription').html(productDes);
+        })
+
+        // set product card category name
+        const currentText = $("#inputProductCategory").find(":selected").text();
+        $("#productCardCategoryName").html(currentText)
+
+        $("#inputProductCategory").change(function (){
+            const currentText = $(this).find(":selected").text();
+            $("#productCardCategoryName").html(currentText)
+        })
+
+        $("#inputProductAddress").change(function(element){
+            let location = element.target.value;
+            location= location? location : "Product location here";
+            $('#productLocation').html(location);
+        })
+
+        $("#inputContactNumber").keyup(function(element){
+            let contact = element.target.value;
+            contact= contact? contact : "Contact here";
+            $('#productCardContactNumber').html(contact);
+        })
+
+        $("#productCardDate").html(new Date())
+
+    </script>
+
+
+    <%-- uploading image in firebase and--%>
+
+
 
     <%--address auto complete--%>
     <script>
         //tutorial
         // https://www.youtube.com/watch?v=QxMBHi_ZiT8
         const addressSearchInputWrapper = document.querySelector(".address-search");
-        const locationInputBox = document.querySelector("#address-input")
+        const locationInputBox = document.querySelector("#inputProductAddress")
         const autoCompleteBox = document.querySelector(".address-autocomplete-box");
 
 
-        locationInputBox.onkeyup = function (event){
+        locationInputBox.onkeyup = function (element){
             //console.log(event.target.value);
-            let addressInputText = event.target.value;
+            let addressInputText = element.target.value;
             if(addressInputText){
                 fetchLocationFromGeoapify(addressInputText);
                 addressSearchInputWrapper.classList.add("active");
@@ -131,22 +200,22 @@
             }
         }
 
-       /* function onSearchTextChange(input){
-            if(input.value == "") {
-                alert("You either clicked the X or you searched for nothing.");
-            }
-            else {
-                fetchLocationFromGeoapify(input.value)
-                alert("You searched for " + input.value);
-            }
-        }*/
+        /* function onSearchTextChange(input){
+             if(input.value == "") {
+                 alert("You either clicked the X or you searched for nothing.");
+             }
+             else {
+                 fetchLocationFromGeoapify(input.value)
+                 alert("You searched for " + input.value);
+             }
+         }*/
 
         function fetchLocationFromGeoapify(locationQueryString){
             const requestOptions = {
                 method: 'GET',
             };
 
-            const apiKey = "853bc30cff9d4c3ab95943bb921a7ce1";
+            const apiKey = "${geoapifyApiKey}";
             const url = "https://api.geoapify.com/v1/geocode/autocomplete?text="+locationQueryString+"&apiKey="+apiKey;
 
             fetch(url, requestOptions)
@@ -160,7 +229,7 @@
 
         function parseLocationInfo(result){
             const features = result["features"];
-            console.log(features);
+            //console.log(features);
 
             let addressList = [];
             for(let i = 0 ; i<features.length ; i++){
@@ -173,9 +242,6 @@
             addressList = addressList.map( function (data){
                 return "<li>"+ data + "</li>"
             })
-
-           // console.log(addressList);
-
             showAddressSuggestions( addressList);
         }
 
@@ -197,32 +263,112 @@
             let address = element.textContent;
             locationInputBox.value = address;
             addressSearchInputWrapper.classList.remove("active"); // hide auto complete
+            $("#productLocation").html(address)
         }
 
-      /*  locationText.addEventListener("change", function (e){
-            const url = "https://api.geoapify.com/v1/geocode/autocomplete?text="++"&apiKey="+apiKey;
+        /*  locationText.addEventListener("change", function (e){
+              const url = "https://api.geoapify.com/v1/geocode/autocomplete?text="++"&apiKey="+apiKey;
 
-            fetch(url, requestOptions)
-                .then(response => response.json())
-                .then(result => console.log(result))
-                .catch(error => console.log('error', error));
-        })*/
-
+              fetch(url, requestOptions)
+                  .then(response => response.json())
+                  .then(result => console.log(result))
+                  .catch(error => console.log('error', error));
+          })*/
 
     </script>
 
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.1/firebase-storage.js"></script>
 
+    <!--  https://firebase.google.com/docs/web/setup#available-libraries -->
     <script>
-        $("#product .product-card-body").click(function () {
-            $(this).find(".card-content").toggleClass("open");
-        })
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "${firebaseApiKey}",
+            authDomain: "${firebaseProjectId}"+".firebaseapp.com",
+            databaseURL: "${firebaseProjectId}" +".firebaseio.com",
+            projectId:  "${firebaseProjectId}",
+            storageBucket:  "${firebaseProjectId}"+".appspot.com",
+            messagingSenderId: "${messagingSenderId}",
+            appId: "${firebaseAppId}"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
 
-        //https://awesomeopensource.com/project/algolia/places
-        //https://www.algolia.com/apps/VG3P3EKYOE/api-keys/all
+        console.log("firebase initialized.")
+        // render the image file in image view
+        const imageInputField = document.querySelector("#inputProductImage")
+        const preview = document.querySelector("#productCardImage")
+        const hiddenImageUrlHolderInputField = document.querySelector("#productImageUrl");
+        onImageSelected(imageInputField, preview, hiddenImageUrlHolderInputField);
 
 
+        function onImageSelected(inputImageField, previewImg, imageUrlHolderHiddenInputField){
+            const funcName = "onImageSelected(): ";
+            console.log(funcName);
+            inputImageField.addEventListener("change", function() {
+                console.log(funcName+"image selected for logo")
+                if (this.files && this.files[0]) {
+                    uploadToFirebase(this.files[0],function (imageUrl){
+                        console.log(funcName+"adding image url to src")
+                        imageUrlHolderHiddenInputField.setAttribute("value", imageUrl);
+                        previewImg.setAttribute('src', imageUrl);
+                    });
+                }
+            });
+        }
+
+        function uploadToFirebase(file ,onUploadSuccess){
+            const fileName = file.name;
+
+            // Points to the root reference
+            const storageRef = firebase.storage().ref();
+
+            // Points to 'images'
+            const imagesStorageRef = storageRef.child('images');
+
+            // space ref where image will be stored
+            const currentDate = new Date().getTime();
+            const spaceRef = imagesStorageRef.child(currentDate+"-product-"+fileName);
+
+            const uploadTask = spaceRef.put(file);
+            /* .then(function (snapshot) {
+                 console.info("image uploaded in firebase");
+                 // Handle successful uploads on complete
+                 // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                     uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                     console.log('File available at', downloadURL);
+
+                     const logUrlInputField = document.querySelector("#logoUrl")
+                     logUrlInputField.setAttribute("value", downloadURL);
+
+                     onUploadSuccess(downloadURL);
+             })*/
+
+
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    // Observe state change events such as progress, pause, and resume
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                    let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+                    const imageUploadProgressBar = document.querySelector("#imageUploadProgressBar");
+                    imageUploadProgressBar.setAttribute("style","width: "+progress+"%;");
+                    imageUploadProgressBar.setAttribute("aria-valuenow", progress+"");
+                },
+                (error) => {
+                    // Handle unsuccessful uploads
+                },
+                () => {
+                    uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        console.log('File available at', downloadURL);
+                        onUploadSuccess(downloadURL);
+                    });
+                }
+            );
+        }
     </script>
-
 
 </div>
 </body>

@@ -20,7 +20,7 @@ public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private int id;
 
     @Column(nullable = false)
     private String name;
@@ -32,7 +32,7 @@ public class Product implements Serializable {
     private Category category;
 
     @ManyToOne(optional = false)
-    private User owner;
+    private User user;
 
     @Column(nullable = false)
     private String images; //comma separated image links
@@ -43,12 +43,22 @@ public class Product implements Serializable {
     @Column(nullable = false)
     private String location;
 
+    @Column(columnDefinition = "boolean", nullable = false)
+    private boolean verified;
+
     @CreationTimestamp
     private Date created;
 
-
     @UpdateTimestamp
     private Date updated;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -66,13 +76,6 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public  Product(){
-
-    }
-    public Product(User user){
-        this.owner = user;
-    }
-
     public Category getCategory() {
         return category;
     }
@@ -81,42 +84,28 @@ public class Product implements Serializable {
         this.category = category;
     }
 
-    public User getOwner() {
-        return owner;
+    public User getUser() {
+        return user;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getImages() {
         return images;
     }
 
-    @Transient
-    public List<String> makeImageList(){
-        return Arrays.stream(images.split(","))
-                .map(String::new)
-                .collect(Collectors.toList());
-    }
-
     public void setImages(String images) {
         this.images = images;
-    }
-
-    public void setMobileNumbers(String mobileNumbers) {
-        this.mobileNumbers = mobileNumbers;
     }
 
     public String getMobileNumbers() {
         return mobileNumbers;
     }
 
-    @Transient
-    public List<String> makeMobileNumberList(){
-        return Arrays.stream(mobileNumbers.split(","))
-                .map(String::new)
-                .collect(Collectors.toList());
+    public void setMobileNumbers(String mobileNumbers) {
+        this.mobileNumbers = mobileNumbers;
     }
 
     public String getLocation() {
@@ -127,39 +116,12 @@ public class Product implements Serializable {
         this.location = location;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public boolean isVerified() {
+        return verified;
     }
 
-    @Id
-    public String getId() {
-        return id;
-    }
-
-    @Transient
-    public String getLogoImagePath(){
-        if(makeImageList() == null || id == null || makeImageList().size() ==0){
-            return null;
-        }
-        return WebConfiguration.IMAGE_UPLOAD_ROOT_PATH
-                +"/product/"+id+"-"+name+"/"+makeImageList().get(0);
-    }
-
-    @Transient
-    public List<String> getImagePathList(){
-        if(makeImageList() == null || id == null || makeImageList().size() ==0){
-            return null;
-        }
-
-        List<String> imageNameList = makeImageList();
-        List<String> imagePathList = new ArrayList<>();
-        for (String imageName : imageNameList) {
-            String path = WebConfiguration.IMAGE_UPLOAD_ROOT_PATH
-                    +"/product/"+id+"-"+name+"/"+imageName;
-            imagePathList.add(path);
-        }
-
-        return imagePathList;
+    public void setVerified(boolean verified) {
+        this.verified = verified;
     }
 
     public Date getCreated() {
@@ -181,11 +143,10 @@ public class Product implements Serializable {
     @Override
     public String toString() {
         return "Product{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", category=" + category +
-                ", owner=" + owner +
+                ", user=" + user +
                 ", images='" + images + '\'' +
                 ", mobileNumbers='" + mobileNumbers + '\'' +
                 ", location='" + location + '\'' +

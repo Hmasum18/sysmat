@@ -22,11 +22,16 @@
         <div class="col-md-4 col-sm-6">
 
             <form method="POST">
+
+                <%--the fields we don't want to change--%>
+                <input type="hidden" name="id" value="${category.id}">
+
                 <div class="mb-3">
                     <label for="inputCategoryName" class="form-label">Category Name*</label>
                     <%--Category.name--%>
                     <input name="name"
                            type="text"
+                           value="${category.name}"
                            class="form-control"
                            id="inputCategoryName"
                            placeholder="Book" required/>
@@ -38,6 +43,7 @@
                     <%--Category.description--%>
                     <input name="description"
                            type="text"
+                           value="${category.description}"
                            class="form-control"
                            id="inputCategoryDescription"
                            placeholder="Description here" required/>
@@ -58,11 +64,11 @@
                     </div>
 
                     <%--Category.logo--%>
-                    <input type="hidden" id="categoryLogoUrl" name="logo" value="">
+                    <input type="hidden" id="categoryLogoUrl" name="logo" value="${category.logo}">
                 </div>
 
                 <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </form>
 
@@ -74,13 +80,13 @@
             <div class="card category-card">
                 <div class="card-img-block">
                     <img id="category-logo" class="card-img-top"
-                         src="https://firebasestorage.googleapis.com/v0/b/fir-tutorial-one-74d1a.appspot.com/o/images%2F1629406343438-teacher.png?alt=media&token=8655567b-55f4-4ba8-85e8-7ed0b42b574e"
+                         src="${category.logo}"
                          style="max-width: 40rem; max-height: 40rem"
                          alt="Card image cap">
                 </div>
                 <div class="card-body pt-0">
-                    <h5 class="card-title" id="cardCategoryName">Category name here</h5>
-                    <p class="card-text" id="cardCategoryDescription">Category description here</p>
+                    <h5 class="card-title" id="cardCategoryName">${category.name}</h5>
+                    <p class="card-text" id="cardCategoryDescription">${category.description}</p>
                 </div>
             </div>
         </div>
@@ -199,29 +205,6 @@
                     });
                 }
             );
-        }
-
-
-        function parseImageNameFromUrl(imageUrl){
-            const startIdx = imageUrl.indexOf("images%2F") + "images%2F".length;
-            const endIdx = imageUrl.indexOf("?alt",startIdx);
-            const imageName = imageUrl.substring(startIdx, endIdx);
-            console.log("parseImageNameFromUrl()->"+imageName);
-        }
-
-        function deleteImageFromFirebaseStorage(imageUrl) {
-            const imageName = parseImageNameFromUrl(imageUrl)
-            // Create a reference to the file to delete
-            const desertRef = storageRef.child('images/'+imageName);
-
-            // Delete the file
-            desertRef.delete().then(() => {
-                // File deleted successfully
-                console.log(imageName+" deleted successfully form firebase")
-            }).catch((error) => {
-                // Uh-oh, an error occurred!
-                console.log(imageName+" was not deleted from firebase.")
-            });
         }
     </script>
 </div>
