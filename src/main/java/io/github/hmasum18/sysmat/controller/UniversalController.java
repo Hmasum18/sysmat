@@ -3,6 +3,7 @@ package io.github.hmasum18.sysmat.controller;
 import io.github.hmasum18.sysmat.model.Category;
 import io.github.hmasum18.sysmat.model.Product;
 import io.github.hmasum18.sysmat.repository.CategoryRepository;
+import io.github.hmasum18.sysmat.service.CategoryService;
 import io.github.hmasum18.sysmat.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,9 @@ import java.util.Optional;
 public class UniversalController {
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    CategoryService categoryService;
 
     @Autowired
     ProductService productService;

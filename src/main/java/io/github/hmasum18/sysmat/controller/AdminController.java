@@ -107,8 +107,20 @@ public class AdminController {
         productList.ifPresent(products -> {
             modelMap.put("productList", products);
         });
-        return "product/all_products";
+        putFirebaseCredentials(modelMap);
+        return "product/pending_products";
     }
+
+    @GetMapping("product/{productId}/verify")
+    public String verify(@PathVariable int productId, ModelMap modelMap){
+        System.out.println("verify(): "+productId);
+        Product product = productService.getProduct(productId).get();
+        product.setVerified(true);
+        product = productService.save(product);
+        System.out.println("verify(): "+product);
+        return "redirect:/admin/product/pending/";
+    }
+
 
     private void putFirebaseCredentials(ModelMap modelMap) {
         modelMap.put("firebaseApiKey", firebaseApiKey);

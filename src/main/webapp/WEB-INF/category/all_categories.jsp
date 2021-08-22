@@ -127,13 +127,6 @@
                 $("#categoryModalDeleteForm").unbind().submit();
             });
         })
-
-      /*  $("#categoryModalDeleteButton").click(function (){
-            console.log("categoryModalDeleteButton clicked")
-            const imageUrl = $("#categoryModalDeleteButton").data("category-logo");
-            console.log(imageUrl)
-            deleteImageFromFirebaseStorage(imageUrl);
-        })*/
     });
 
 </script>
@@ -157,6 +150,7 @@
         messagingSenderId: "${messagingSenderId}",
         appId: "${firebaseAppId}"
     };
+    //console.log(firebaseConfig);
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 

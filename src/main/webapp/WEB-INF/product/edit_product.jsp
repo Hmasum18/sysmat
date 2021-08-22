@@ -18,6 +18,9 @@
     <div class="row justify-content-center">
         <div class="col-md-4 col-sm-6">
             <form method="post">
+
+                <input type="hidden" name="id" value="${product.id}">
+
                 <div class="mb-3">
                     <label for="inputProductName" class="form-label">Product Name*</label>
                     <%--product name--%>
@@ -25,6 +28,7 @@
                                 type="text"
                                 class="form-control"
                                 id="inputProductName"
+                                value="${product.name}"
                                 placeholder="Name" required>
                 </div>
 
@@ -33,6 +37,7 @@
                     <%--product description--%>
                     <input name="description"
                                 type="text"
+                                value="${product.description}"
                                 class="form-control"
                                 id="inputProductDescription"
                                 placeholder="Description here" required>
@@ -45,12 +50,12 @@
                                  class="form-select form-select-sm"
                                  aria-label=".form-select-sm example" required>
 
-                        <c:forEach items="${categoryList}" var="product" varStatus="i">
-                            <c:if test="${product.name.equalsIgnoreCase(\"book\")}">
-                                <option selected value="${product.id}">${product.name}</option>
+                        <c:forEach items="${categoryList}" var="category" varStatus="i">
+                            <c:if test="${category.name.equalsIgnoreCase(product.category.name)}">
+                                <option selected value="${category.id}">${category.name}</option>
                             </c:if>
-                            <c:if test="${!product.name.equalsIgnoreCase(\"book\")}">
-                                <option value="${product.id}">${product.name}</option>
+                            <c:if test="${!category.name.equalsIgnoreCase(\"book\")}">
+                                <option value="${category.id}">${category.name}</option>
                             </c:if>
                         </c:forEach>
                     </select>
@@ -63,6 +68,7 @@
                                 type="search"
                                 class="form-control"
                                 id="inputProductAddress"
+                           value="${product.location}"
                                 placeholder="Location" required>
                     <div class="address-search">
                         <div class="address-autocomplete-box">
@@ -78,7 +84,7 @@
                            type="file"
                            accept="image/*"
                            class="form-control form-control-sm"
-                           id="inputProductImage" required/>
+                           id="inputProductImage"/>
                     <div class="my-3">
                         <div class="progress">
                             <div id="imageUploadProgressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -86,12 +92,12 @@
                     </div>
 
                     <%--Product.logo--%>
-                    <input type="hidden" id="productImageUrl" name="images" value="">
+                    <input type="hidden" id="productImageUrl" name="images" value="${product.images}">
                 </div>
 
                 <div class="mb-3">
                     <label for="inputContactNumber" class="form-label">Contact number*</label>
-                    <input name="mobileNumbers"
+                    <input name="mobileNumbers" value="${product.mobileNumbers}"
                     type="number" class="form-control form-control-sm" id="inputContactNumber" required>
                 </div>
 
@@ -108,16 +114,16 @@
                  style="z-index: 0; transform: translate3d(0px, 0px, 0px) rotateX(0deg);"
                  tabindex="0">
 
-                <img class="productCardImage" id="productCardImage" src="https://image.flaticon.com/icons/png/512/1170/1170577.png" alt="Product image">
+                <img class="productCardImage" id="productCardImage" src="${product.images}" alt="Product image">
                 <div class="card-content">
-                    <p class="category-name" id="productCardCategoryName">Category</p>
-                    <h2 id="productCardProductName">Product name here</h2>
-                    <p id="productLocation">Product location here</p>
-                    <p class="read-more" id="productCardContactNumber">Contact here</p>
+                    <p class="category-name" id="productCardCategoryName">${product.category.name}</p>
+                    <h2 id="productCardProductName">${product.name}</h2>
+                    <p id="productLocation">${product.location}</p>
+                    <p class="read-more" id="productCardContactNumber">${product.mobileNumbers}</p>
                     <div class="description">
-                        <p id="productCardDescription">Product description here.</p>
+                        <p id="productCardDescription">${product.description}</p>
                         <p></p>
-                        <p class="date" id="productCardDate">Upload time</p>
+                        <p class="date" id="productCardDate">${product.created}</p>
                     </div>
                 </div>
             </div>
@@ -293,11 +299,10 @@
             messagingSenderId: "${messagingSenderId}",
             appId: "${firebaseAppId}"
         };
-        //console.log(firebaseConfig)
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
 
-        //console.log("firebase initialized.")
+        console.log("firebase initialized.")
         // render the image file in image view
         const imageInputField = document.querySelector("#inputProductImage")
         const preview = document.querySelector("#productCardImage")

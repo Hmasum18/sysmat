@@ -3,6 +3,7 @@ package io.github.hmasum18.sysmat.service;
 import io.github.hmasum18.sysmat.model.User;
 import io.github.hmasum18.sysmat.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,12 +19,19 @@ public class UserService {
     private PasswordEncoder bCryptPasswordEncoder;
 
 
-    public Optional<User> findByUsername(String username) {
+    public Optional<User> getUser(String username) {
         return userRepository.findByUsername(username);
     }
 
-    public Optional<User> findByUserEmail(String email){
+    public Optional<User> getUserByEmail(String email){
         return userRepository.findByEmail(email);
+    }
+
+    public User getLoggedInUSer(){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("getLoggedInInUser(): owner: " + username);
+        Optional<User> user = userRepository.findByUsername(username);
+        return user.get();
     }
 
     @Transactional

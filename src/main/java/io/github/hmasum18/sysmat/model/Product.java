@@ -140,16 +140,19 @@ public class Product implements Serializable {
         this.updated = updated;
     }
 
+
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", user=" + user +
+                ", category=" + category.getName() +
+                ", user=" + user.getUsername() +
                 ", images='" + images + '\'' +
                 ", mobileNumbers='" + mobileNumbers + '\'' +
                 ", location='" + location + '\'' +
+                ", verified=" + verified +
                 ", created=" + created +
                 ", updated=" + updated +
                 '}';

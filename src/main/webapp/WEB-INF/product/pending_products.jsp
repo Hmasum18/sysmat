@@ -13,69 +13,10 @@
 </head>
 <body>
    <div class="container">
-       <c:if test="${pageContext.request.userPrincipal.name != null}">
-           <div class="row mb-3">
-               <div class="mt-3">
-                   <h3>Product(Pending verification)</h3>
-               </div>
-                   <%--error--%>
-               <c:if test="${productListUnverified == null || productListUnverified.size() == 0}">
-                   <div class="alert alert-info" role="alert">
-                       No product for verification.
-                   </div>
-               </c:if>
-           </div>
-
-           <c:forEach items="${productListUnverified}" step="4" varStatus="i">
-               <div class="row">
-                   <c:forEach items="${productListUnverified}" var="product" begin="${i.index}" end="${i.index+3}" varStatus="j">
-                       <div class="col-md-3 mt-4 mx-4 product">
-                           <div class="product-card-body"
-                                style="z-index: 0; transform: translate3d(0px, 0px, 0px) rotateX(0deg);"
-                                tabindex="0">
-
-                               <img class="productCardImage" src="${product.images}" alt="Product image">
-                               <div class="card-content">
-                                   <p class="category-name">${product.category.name}</p>
-                                   <h2 >${product.name}</h2>
-                                   <p >${product.location}</p>
-                                   <p class="read-more" >Contact: ${product.mobileNumbers}</p>
-                                   <div class="description">
-                                       <p >${product.description}</p>
-                                       <p></p>
-                                       <p class="date">${product.created}</p>
-                                   </div>
-                               </div>
-                           </div>
-
-                           <div class="my-3">
-                                   <a href="/user/product/${product.id}/edit/" type="button" class="btn btn-primary">EDIT</a>
-                                   <a
-                                           type="submit"
-                                           class="btn btn-danger productDeleteButton"
-                                           data-product-id = "${product.id}"
-                                           data-product-logo= "${product.images}"
-                                           data-bs-toggle="modal"
-                                           data-bs-target=".productDeleteModal">
-                                       DELETE
-                                   </a>
-                               <c:if test="${pageContext.request.userPrincipal.toString().contains(\"ROLE_ADMIN\")}">
-                                   <a href="/admin/product/${product.id}/verify" type="button" class="btn btn-success">VERIFY</a>
-                               </c:if>
-                           </div>
-
-                       </div>
-
-
-                   </c:forEach>
-               </div>
-           </c:forEach>
-
-       </c:if>
 
        <div class="row mb-3">
            <div class="my-3">
-               <h3>Product</h3>
+               <h3>Pending Product</h3>
            </div>
            <%--error--%>
            <c:if test="${productList == null || productList.size() == 0}">

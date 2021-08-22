@@ -35,10 +35,10 @@
 /*topic card*/
 
 
-#product .product-card-body {
+.product .product-card-body {
     background: #7f4fca;
     border-radius: 5px;
-    max-height: 390px;
+    max-height: 360px;
 
     max-width: 270px;
     overflow: hidden;
@@ -52,9 +52,10 @@
     z-index: -2;
 }
 
-#product #productCardImage{
+.product .productCardImage{
     width: 100%;
     height: auto;
+    max-height: 200px;
     object-fit: contain;
     background-color: #727991;
     background-size: contain;
@@ -63,7 +64,7 @@
 
 }
 
-#product .category-name {
+.product .category-name {
     text-transform: uppercase;
     font-size: 0.8em;
     margin-top: 5px;
@@ -71,7 +72,7 @@
 }
 
 
-#product .product-card-body .card-content {
+.product .product-card-body .card-content {
     background: white;
     opacity: 1;
     position: relative;
@@ -80,7 +81,7 @@
     transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-#product h2 {
+.product h2 {
     font-size: 1.25em;
    /* margin: 5px 0;*/
     /*min-height: 50px;*/
@@ -100,32 +101,32 @@
     text-transform: uppercase;
 }*/
 
-#product .product-card-body .card-content.open,
-#product .product-card-body:hover .card-content.open,
-#product .product-card-body:focus .card-content.open{
+.product .product-card-body .card-content.open,
+.product .product-card-body:hover .card-content.open,
+.product .product-card-body:focus .card-content.open{
     top: -270px;
     opacity: 0.8;
     height: 390px;
 }
-#product .product-card-body:hover .card-content.open .description,
-#product .product-card-body:focus .card-content.open .description{
+.product .product-card-body:hover .card-content.open .description,
+.product .product-card-body:focus .card-content.open .description{
     opacity: 1;
 }
 
-#product .product-card-body:hover,#product #productCardImage:focus {
+.product .product-card-body:hover,.product .productCardImage:focus {
     cursor: pointer;
 }
 
-#product .product-card-body:hover .card-content,#product #productCardImage:focus .card-content{
+.product .product-card-body:hover .card-content,.product .productCardImage:focus .card-content{
     top: -50px;
 }
 
-#product .product-card-body:hover .description,#product #productCardImage:focus .description {
+.product .product-card-body:hover .description,.product .productCardImage:focus .description {
     opacity: 0.3;
 }
 
 /*=========== the line =======================*/
-#product .product-card-body
+.product .product-card-body
 .card-content:before {
     content: "";
     height: 7.5px;
@@ -136,19 +137,19 @@
     left: 0;
 }
 
-#product .product-card-body .card-content:before {
+.product .product-card-body .card-content:before {
     background-color: #FF6B6B;
 }
 /*=============line end======================*/
 
 
-#product .description {
+.product .description {
     line-height: 1.5em;
     opacity: 0;
     transition: all 0.5s;
 }
 
-#product .open .description {
+.product .open .description {
     opacity: 1;
 }
 

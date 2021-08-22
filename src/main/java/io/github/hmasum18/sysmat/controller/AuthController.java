@@ -10,16 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Objects;
 import java.util.Optional;
 
 
@@ -155,12 +150,12 @@ public class AuthController {
     }
 
     private boolean foundDuplicateUsername(String username) {
-        Optional<User> duplicateUser = userService.findByUsername(username);
+        Optional<User> duplicateUser = userService.getUser(username);
         return duplicateUser.isPresent();
     }
 
     private boolean foundDuplicateEmail(String email) {
-        Optional<User> duplicateUser = userService.findByUserEmail(email);
+        Optional<User> duplicateUser = userService.getUserByEmail(email);
         return duplicateUser.isPresent();
     }
 

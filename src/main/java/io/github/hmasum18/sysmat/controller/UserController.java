@@ -6,16 +6,15 @@ import io.github.hmasum18.sysmat.model.User;
 import io.github.hmasum18.sysmat.repository.CategoryRepository;
 import io.github.hmasum18.sysmat.repository.ProductRepository;
 import io.github.hmasum18.sysmat.repository.UserRepository;
+import io.github.hmasum18.sysmat.service.CategoryService;
 import io.github.hmasum18.sysmat.service.ProductService;
+import io.github.hmasum18.sysmat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import java.util.Optional;
 
@@ -39,10 +38,10 @@ public class UserController {
     String geoapifyApiKey;
 
     @Autowired
-    CategoryRepository categoryRepository;
+    CategoryService categoryService;
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @Autowired
     ProductService productService;
@@ -51,10 +50,70 @@ public class UserController {
     @GetMapping("product/add")
     public String addProduct(ModelMap modelMap) {
         modelMap.put("product", new Product());
-        modelMap.put("categoryList", categoryRepository.findAll());
+        modelMap.put("categoryList", categoryService.getAllCategory());
         modelMap.put("geoapifyApiKey", geoapifyApiKey);
         putFirebaseCredentials(modelMap);
         return "product/add_product";
+    }
+
+
+    @PostMapping("product/add")
+    public String addProduct(@ModelAttribute("product") Product product, int categoryId) {
+        Optional<Category> categoryOptional = categoryService.getCategory(categoryId);
+        product.setCategory(categoryOptional.get());
+        product.setUser(userService.getLoggedInUSer());
+        product = productService.save(product);
+        System.out.println("addProduct(): " + product);
+
+        return "redirect:/user/product/";
+    }
+
+    @GetMapping(value = "product/{productId}/edit/")
+    public String editProduct(@PathVariable int productId, ModelMap modelMap ) {
+        Optional<Product> optionalProduct = productService.getProduct(productId);
+        optionalProduct.ifPresent(product -> {
+            modelMap.put("product", product);
+        });
+
+        modelMap.put("categoryList", categoryService.getAllCategory());
+        modelMap.put("geoapifyApiKey", geoapifyApiKey);
+        putFirebaseCredentials(modelMap);
+        return "product/edit_product";
+    }
+
+    @PostMapping("/product/{productId}/edit")
+    public String editProduct(@ModelAttribute("product") Product product, int categoryId, @PathVariable int productId) {
+        Optional<Category> categoryOptional = categoryService.getCategory(categoryId);
+        product.setCategory(categoryOptional.get());
+
+        Optional<Product> prevProduct = productService.getProduct(productId);
+        product.setCreated(prevProduct.get().getCreated());
+        product.setVerified(prevProduct.get().isVerified());
+
+        product.setUser(userService.getLoggedInUSer());
+        product = productService.save(product);
+        System.out.println("addProduct(): " + product);
+
+        return "redirect:/user/product/";
+    }
+
+    //working file
+    @PostMapping("/product/{productId}/delete")
+    public String deleteProduct(@PathVariable int productId) {
+        System.out.println("deleteProduct(): " + productId);
+        productService.delete(productId);
+        return "redirect:/user/product/";
+    }
+
+    @GetMapping("product/")
+    public String getAllProducts(ModelMap modelMap) {
+        modelMap.put("productListUnverified",
+                productService.getAllProduct(userService.getLoggedInUSer(), false).get());
+        modelMap.put("productList",
+                productService.getAllProduct(userService.getLoggedInUSer(), true).get());
+
+        putFirebaseCredentials(modelMap);
+        return "product/all_products";
     }
 
     private void putFirebaseCredentials(ModelMap modelMap) {
@@ -62,31 +121,5 @@ public class UserController {
         modelMap.put("firebaseProjectId", firebaseProjectId);
         modelMap.put("messagingSenderId", messagingSenderId);
         modelMap.put("firebaseAppId", firebaseAppId);
-    }
-
-    @PostMapping("product/add")
-    public String addProduct(@ModelAttribute("product") Product product, int categoryId) {
-        Optional<Category> categoryOptional = categoryRepository.findById(categoryId);
-        product.setCategory(categoryOptional.get());
-        product.setUser(getLoggedInInUser());
-        product = productService.save(product);
-        System.out.println("addProduct(): " + product);
-
-        return "redirect:/user/product/";
-    }
-
-    @GetMapping("product/")
-    public String getAllProducts(ModelMap modelMap) {
-        productService.getAllProduct(getLoggedInInUser(), true).ifPresent(products -> {
-            modelMap.put("productList", products);
-        });
-        return "product/all_products";
-    }
-
-    private User getLoggedInInUser() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println("getLoggedInInUser(): owner: " + username);
-        Optional<User> user = userRepository.findByUsername(username);
-        return user.get();
     }
 }
