@@ -10,6 +10,7 @@
     - Spring mail for verification
     - Spring data JPA
     - Hibernate
+    - JWT token.
    
 - Frontend:
     - JSP
