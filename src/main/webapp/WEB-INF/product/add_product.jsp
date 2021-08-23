@@ -29,6 +29,16 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="inputProductPrice" class="form-label">Price*</label>
+                    <%--product name--%>
+                    <input name="price"
+                           type="number"
+                           class="form-control"
+                           id="inputProductPrice"
+                           placeholder="price" required>
+                </div>
+
+                <div class="mb-3">
                     <label for="inputProductDescription" class="form-label">Description*</label>
                     <%--product description--%>
                     <input name="description"
@@ -112,11 +122,11 @@
                 <div class="card-content">
                     <p class="category-name" id="productCardCategoryName">Category</p>
                     <h2 id="productCardProductName">Product name here</h2>
-                    <p id="productLocation">Product location here</p>
+                    <p id="productCardPrice">0<b style="font-size: 1.5em;">৳</b></p>
+                    <p id="productLocation" class="productLocation">Product location here</p>
                     <p class="read-more" id="productCardContactNumber">Contact here</p>
                     <div class="description">
                         <p id="productCardDescription">Product description here.</p>
-                        <p></p>
                         <p class="date" id="productCardDate">Upload time</p>
                     </div>
                 </div>
@@ -143,6 +153,13 @@
             $('#productCardProductName').text(productName);
         })
 
+        $("#inputProductPrice").keyup(function(element){
+            let price = parseFloat(element.target.value);
+            price = !isNaN(price) ? price: 0.00;
+            //console.log(price);
+            $("#productCardPrice").html(price+"<b style=\"font-size: 1.5em;\">৳</b>");
+        })
+
 
         $("#inputProductDescription").keyup(function(element){
             let productDes = element.target.value;
@@ -167,7 +184,7 @@
 
         $("#inputContactNumber").keyup(function(element){
             let contact = element.target.value;
-            contact= contact? contact : "Contact here";
+            contact= contact? "Contact: "+contact : "Contact here";
             $('#productCardContactNumber').html(contact);
         })
 

@@ -38,7 +38,8 @@
                                <div class="card-content">
                                    <p class="category-name">${product.category.name}</p>
                                    <h2 >${product.name}</h2>
-                                   <p >${product.location}</p>
+                                   <p>${product.price}<b style="font-size: 1.5em;">৳</b></p>
+                                   <p class="productLocation">${product.location}</p>
                                    <p class="read-more" >Contact: ${product.mobileNumbers}</p>
                                    <div class="description">
                                        <p >${product.description}</p>
@@ -101,11 +102,11 @@
                            <div class="card-content">
                                <p class="category-name" id="productCardCategoryName">${product.category.name}</p>
                                <h2 id="productCardProductName">${product.name}</h2>
-                               <p id="productLocation">${product.location}</p>
+                               <p>${product.price}<b style="font-size: 1.5em;">৳</b></p>
+                               <p id="productLocation" class="productLocation">${product.location}</p>
                                <p class="read-more" id="productCardContactNumber">Contact: ${product.mobileNumbers}</p>
                                <div class="description">
                                    <p id="productCardDescription">${product.description}</p>
-                                   <p></p>
                                    <p class="date" id="productCardDate">${product.created}</p>
                                </div>
                            </div>

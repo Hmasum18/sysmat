@@ -28,6 +28,9 @@ public class Product implements Serializable {
     @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
+    private double price;
+
     @ManyToOne(optional = false)
     private Category category;
 
@@ -74,6 +77,14 @@ public class Product implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public Category getCategory() {
@@ -139,7 +150,6 @@ public class Product implements Serializable {
     public void setUpdated(Date updated) {
         this.updated = updated;
     }
-
 
     @Override
     public String toString() {

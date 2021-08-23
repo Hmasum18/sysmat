@@ -33,6 +33,17 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="inputProductPrice" class="form-label">Price*</label>
+                    <%--product price--%>
+                    <input name="price"
+                           type="text"
+                           class="form-control"
+                           id="inputProductPrice"
+                           value="${product.price}"
+                           placeholder="price" required>
+                </div>
+
+                <div class="mb-3">
                     <label for="inputProductDescription" class="form-label">Description*</label>
                     <%--product description--%>
                     <input name="description"
@@ -118,6 +129,7 @@
                 <div class="card-content">
                     <p class="category-name" id="productCardCategoryName">${product.category.name}</p>
                     <h2 id="productCardProductName">${product.name}</h2>
+                    <p id="productCardPrice" class="productLocation">${product.price}<b style="font-size: 1.5em;">৳</b></p>
                     <p id="productLocation">${product.location}</p>
                     <p class="read-more" id="productCardContactNumber">${product.mobileNumbers}</p>
                     <div class="description">
@@ -147,6 +159,13 @@
             let productName = element.target.value;
             productName = productName? productName : "Product name here";
             $('#productCardProductName').text(productName);
+        })
+
+        $("#inputProductPrice").keyup(function(element){
+            let price = parseFloat(element.target.value);
+            price = !isNaN(price) ? price: 0.00;
+            //console.log(price);
+            $("#productCardPrice").html(price+"<b style=\"font-size: 1.5em;\">৳</b>");
         })
 
 
