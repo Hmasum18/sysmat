@@ -60,7 +60,7 @@
                        <%-- options for both user and admin--%>
                     <a class="nav-link active" aria-current="page" href="/user/product/add">Add product</a>
                     <a class="nav-link active" aria-current="page" href="/user/product/">My Products</a>
-                    <a class="nav-link active" aria-current="page" href="">My account</a>
+                    <a class="nav-link active" aria-current="page" href="/auth/profile/">My account</a>
                 </div>
             </div>
 
@@ -137,6 +137,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js" integrity="sha512-YSdqvJoZr83hj76AIVdOcvLWYMWzy6sJyIMic2aQz5kh2bPTd9dzY3NtdeEAzPp/PhgZqr4aJObB3ym/vsItMg==" crossorigin="anonymous"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
 </body>
 </html>

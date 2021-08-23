@@ -1,11 +1,14 @@
 package io.github.hmasum18.sysmat.controller;
 
 import io.github.hmasum18.sysmat.model.User;
+import io.github.hmasum18.sysmat.model.UserProfile;
 import io.github.hmasum18.sysmat.repository.UserRepository;
 import io.github.hmasum18.sysmat.service.EmailSenderService;
+import io.github.hmasum18.sysmat.service.UserProfileService;
 import io.github.hmasum18.sysmat.service.UserService;
 import io.github.hmasum18.sysmat.util.JwtUtil;
 import net.bytebuddy.utility.RandomString;
+import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -34,7 +37,7 @@ public class AuthController {
     UserService userService;
 
     @Autowired
-    private UserRepository userRepository;
+    UserProfileService userProfileService;
 
     @Autowired
     EmailSenderService emailSenderService;
@@ -95,7 +98,7 @@ public class AuthController {
 
     @GetMapping("/verify")
     public String verifyUser(String code){
-        Optional<User> user = userRepository.findByVerificationCode(code);
+        Optional<User> user = userService.getByVerificationCode(code);
 
         if (user.isEmpty()){
             return "redirect:/auth/login?verified="+VERIFICATION_FAILED;
@@ -105,7 +108,7 @@ public class AuthController {
         else {
             user.get().setVerificationCode(null);
             user.get().setVerified(true);
-            userRepository.save(user.get());
+            userService.save(user.get());
             return "redirect:/auth/login?verified="+VERIFICATION_SUCCESS;
         }
     }
@@ -147,6 +150,48 @@ public class AuthController {
         model.put("user", new User());
 
         return LOGIN_FORM;
+    }
+
+    @GetMapping("profile")
+    private String profile(ModelMap modelMap){
+        User user = userService.getLoggedInUser();
+        modelMap.put("user", user);
+        UserProfile userProfile = userProfileService.getProfile(user);
+        if(userProfile == null){
+            userProfile = new UserProfile();
+            userProfile.setUser(user);
+            userProfile = userProfileService.save(userProfile);
+        }
+        modelMap.put("userProfile", userProfile);
+        return "auth/profile";
+    }
+
+    @PostMapping("profile")
+    private String profile(ModelMap modelMap, UserProfile userProfile, String currentPassword, String newPassword){
+        User user = userService.getLoggedInUser();
+        modelMap.put("user", user);
+
+       /* System.out.println("updateProfile(): " + userProfile);
+        System.out.println("updateProfile(): odlPassword " + currentPassword);
+        System.out.println("updateProfile(): newPassword " + newPassword);*/
+
+        if(userService.matchPassword(currentPassword)){
+            if(newPassword !=null && !newPassword.isEmpty()){
+                user.setPassword(newPassword);
+                user = userService.save(user);
+            }
+            userProfile.setUser(user);
+            userProfileService.save(userProfile);
+            System.out.println("updateProfile(): correct password");
+        }else{
+            System.out.println("updateProfile(): Incorrect password");
+            modelMap.put("passwordError", "Incorrect Password!");
+        }
+
+        userProfile = userProfileService.getProfile(user);
+        modelMap.put("userProfile", userProfile);
+
+        return "auth/profile";
     }
 
     private boolean foundDuplicateUsername(String username) {

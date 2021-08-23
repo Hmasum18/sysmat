@@ -2,12 +2,9 @@ package io.github.hmasum18.sysmat.controller;
 
 import io.github.hmasum18.sysmat.model.Category;
 import io.github.hmasum18.sysmat.model.Product;
-import io.github.hmasum18.sysmat.model.User;
-import io.github.hmasum18.sysmat.repository.CategoryRepository;
-import io.github.hmasum18.sysmat.repository.ProductRepository;
-import io.github.hmasum18.sysmat.repository.UserRepository;
 import io.github.hmasum18.sysmat.service.CategoryService;
 import io.github.hmasum18.sysmat.service.ProductService;
+import io.github.hmasum18.sysmat.service.UserProfileService;
 import io.github.hmasum18.sysmat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,12 +41,16 @@ public class UserController {
     UserService userService;
 
     @Autowired
+    UserProfileService userProfileService;
+
+    @Autowired
     ProductService productService;
 
     // =============================== product routes ======================================
     @GetMapping("product/add")
     public String addProduct(ModelMap modelMap) {
         modelMap.put("product", new Product());
+        modelMap.put("userProfile", userProfileService.getProfile(userService.getLoggedInUser()));
         modelMap.put("categoryList", categoryService.getAllCategory());
         modelMap.put("geoapifyApiKey", geoapifyApiKey);
         putFirebaseCredentials(modelMap);
@@ -61,7 +62,7 @@ public class UserController {
     public String addProduct(@ModelAttribute("product") Product product, int categoryId) {
         Optional<Category> categoryOptional = categoryService.getCategory(categoryId);
         product.setCategory(categoryOptional.get());
-        product.setUser(userService.getLoggedInUSer());
+        product.setUser(userService.getLoggedInUser());
         product = productService.save(product);
         System.out.println("addProduct(): " + product);
 
@@ -94,7 +95,7 @@ public class UserController {
         product = productService.save(product);
         System.out.println("addProduct(): " + product);
 
-        if(userService.getLoggedInUSer().getRoles().equals("ROLE_ADMIN")){
+        if(userService.getLoggedInUser().getRoles().equals("ROLE_ADMIN")){
             return "redirect:/admin/product/pending/";
         }
 
@@ -112,9 +113,9 @@ public class UserController {
     @GetMapping("product/")
     public String getAllProducts(ModelMap modelMap) {
         modelMap.put("productListUnverified",
-                productService.getAllProduct(userService.getLoggedInUSer(), false).get());
+                productService.getAllProduct(userService.getLoggedInUser(), false).get());
         modelMap.put("productList",
-                productService.getAllProduct(userService.getLoggedInUSer(), true).get());
+                productService.getAllProduct(userService.getLoggedInUser(), true).get());
 
         putFirebaseCredentials(modelMap);
         return "product/all_products";

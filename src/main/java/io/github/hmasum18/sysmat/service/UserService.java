@@ -27,16 +27,26 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public User getLoggedInUSer(){
+    public User getLoggedInUser(){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         System.out.println("getLoggedInInUser(): owner: " + username);
         Optional<User> user = userRepository.findByUsername(username);
-        return user.get();
+        return user.orElse(null);
     }
 
     @Transactional
-    public void save(User user) {
+    public User save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        return userRepository.save(user);
+    }
+
+    public boolean matchPassword(String password){
+        if(getLoggedInUser()==null)
+            return  false;
+        return bCryptPasswordEncoder.matches(password, getLoggedInUser().getPassword());
+    }
+
+    public Optional<User> getByVerificationCode(String code) {
+        return userRepository.findByVerificationCode(code);
     }
 }

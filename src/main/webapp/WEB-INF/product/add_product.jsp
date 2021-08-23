@@ -17,15 +17,15 @@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-4 col-sm-6">
-            <form method="post">
+            <form id="productForm" method="post">
                 <div class="mb-3">
                     <label for="inputProductName" class="form-label">Product Name*</label>
                     <%--product name--%>
                     <input name="name"
-                                type="text"
-                                class="form-control"
-                                id="inputProductName"
-                                placeholder="Name" required>
+                           type="text"
+                           class="form-control"
+                           id="inputProductName"
+                           placeholder="Name" required>
                 </div>
 
                 <div class="mb-3">
@@ -42,18 +42,18 @@
                     <label for="inputProductDescription" class="form-label">Description*</label>
                     <%--product description--%>
                     <input name="description"
-                                type="text"
-                                class="form-control"
-                                id="inputProductDescription"
-                                placeholder="Description here" required>
+                           type="text"
+                           class="form-control"
+                           id="inputProductDescription"
+                           placeholder="Description here" required>
                 </div>
 
                 <label for="inputProductCategory" class="form-label">Category*</label>
                 <div class="mb-3">
                     <%--product category--%>
                     <select name="categoryId" id="inputProductCategory"
-                                 class="form-select form-select-sm"
-                                 aria-label=".form-select-sm example" required>
+                            class="form-select form-select-sm"
+                            aria-label=".form-select-sm example" required>
 
                         <c:forEach items="${categoryList}" var="product" varStatus="i">
                             <c:if test="${product.name.equalsIgnoreCase(\"book\")}">
@@ -70,10 +70,13 @@
                     <label for="inputProductAddress" class="form-label">Location*</label>
                     <%--location--%>
                     <input name="location"
-                                type="search"
-                                class="form-control"
-                                id="inputProductAddress"
-                                placeholder="Location" required>
+                    <c:if test="${userProfile!=null}">
+                           value="${userProfile.address}"
+                    </c:if>
+                           type="search"
+                           class="form-control"
+                           id="inputProductAddress"
+                           placeholder="Location" required>
                     <div class="address-search">
                         <div class="address-autocomplete-box">
                         </div>
@@ -91,7 +94,8 @@
                            id="inputProductImage" required/>
                     <div class="my-3">
                         <div class="progress">
-                            <div id="imageUploadProgressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div id="imageUploadProgressBar" class="progress-bar" role="progressbar" style="width: 0%;"
+                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
 
@@ -102,7 +106,12 @@
                 <div class="mb-3">
                     <label for="inputContactNumber" class="form-label">Contact number*</label>
                     <input name="mobileNumbers"
-                    type="number" class="form-control form-control-sm" id="inputContactNumber" required>
+                    <c:if test="${userProfile!=null}">
+                           value="${userProfile.contact}"
+                    </c:if>
+                           type="number"
+                           class="form-control form-control-sm"
+                           id="inputContactNumber" required>
                 </div>
 
                 <div class="mb-3">
@@ -111,57 +120,55 @@
             </form>
         </div>
 
-      <%--  <!--Profile Card 5-->
-        &lt;%&ndash;https://codepen.io/halidaa/pen/GGZqqg&ndash;%&gt;
-        <div class="col-md-3 mt-4 mx-4 product">
-            <div class="product-card-body"
-                 style="z-index: 0; transform: translate3d(0px, 0px, 0px) rotateX(0deg);"
-                 tabindex="0">
-
-                <img class="productCardImage" id="productCardImage" src="https://image.flaticon.com/icons/png/512/1170/1170577.png" alt="Product image">
-                <div class="card-content">
-                    <p class="category-name" id="productCardCategoryName">Category</p>
-                    <h2 id="productCardProductName">Product name here</h2>
-                    <p id="productCardPrice">0<b style="font-size: 1.5em;">৳</b></p>
-                    <p id="productLocation" class="productLocation">Product location here</p>
-                    <p class="read-more" id="productCardContactNumber">Contact here</p>
-                    <div class="description">
-                        <p id="productCardDescription">Product description here.</p>
-                        <p class="date" id="productCardDate">Upload time</p>
-                    </div>
-                </div>
-            </div>
-        </div>--%>
-
         <%--https://bbbootstrap.com/snippets/bootstrap-ecommerce-item-products-list-description-and-rating-icons-83216490--%>
 
         <div class="col-md-6">
             <div class="card card-body">
                 <div class="row media justify-content-center align-items-center align-items-lg-start text-center text-lg-left flex-column flex-lg-row">
                     <div class="col-md-3 mr-2 mb-3 mb-lg-0">
-                        <img  id="productCardImage" src="/images/image-placeholder.png"
-                              width="150" alt="Product Image">
+                        <img id="productCardImage" src="/images/image-placeholder.png"
+                             width="150" alt="Product Image">
                     </div>
                     <div class="col-md-6 media-body text-left ">
                         <h6 class="media-title font-weight-bold" id="productCardProductName">Product Name Here</h6>
-                        <p id="productCardCategoryName" class="text-muted" >Phones</p>
+                        <p id="productCardCategoryName" class="text-muted">Phones</p>
                         <p id="productCardDescription" class="mb-3">Product description here.</p>
                         <p id="productLocation" class="mb-0 text-muted">location</p>
                     </div>
                     <div class="col-md-3">
                         <h3 id="productCardPrice" class="mb-0 font-weight-semibold">
                             <b style="font-size: 1.5em;">৳</b>000.00</h3>
-                        <p id="productCardContactNumber" class="btn btn-outline-success mt-4 font-weight-bold">Contact here</p>
+                        <p id="productCardContactNumber" class="btn btn-outline-success mt-4 font-weight-bold">Contact
+                            here</p>
                     </div>
                 </div>
 
             </div>
         </div>
 
+    </div>
 
+    <script>
+        $().ready(function() {
+            $('#userProfileForm').validate({
+                rules : {
+                    mobileNumbers : {
+                        minlength: 11
+                    },
+                },
+                messages: {
+                    mobileNumbers : {
+                        minlength: "Your phone number must be 11 digit long."
+                    },
+                }
+            });
+
+        });
+    </script>
 
     <%--product card info update--%>
     <script>
+
         //https://awesomeopensource.com/project/algolia/places
         //https://www.algolia.com/apps/VG3P3EKYOE/api-keys/all
         $(".product .product-card-body").click(function () {
@@ -169,24 +176,24 @@
         })
 
         // set product name to the card when changes
-        $("#inputProductName").keyup(function(element){
+        $("#inputProductName").keyup(function (element) {
             //console.log(element.target.value)
             let productName = element.target.value;
-            productName = productName? productName : "Product name here";
+            productName = productName ? productName : "Product name here";
             $('#productCardProductName').text(productName);
         })
 
-        $("#inputProductPrice").keyup(function(element){
+        $("#inputProductPrice").keyup(function (element) {
             let price = parseFloat(element.target.value);
-            price = !isNaN(price) ? price: 0.00;
+            price = !isNaN(price) ? price : 0.00;
             //console.log(price);
-            $("#productCardPrice").html("<b style=\"font-size: 1.5em;\">৳</b>"+price);
+            $("#productCardPrice").html("<b style=\"font-size: 1.5em;\">৳</b>" + price);
         })
 
 
-        $("#inputProductDescription").keyup(function(element){
+        $("#inputProductDescription").keyup(function (element) {
             let productDes = element.target.value;
-            productDes= productDes? productDes : "Product description here";
+            productDes = productDes ? productDes : "Product description here";
             $('#productCardDescription').html(productDes);
         })
 
@@ -194,20 +201,20 @@
         const currentText = $("#inputProductCategory").find(":selected").text();
         $("#productCardCategoryName").html(currentText)
 
-        $("#inputProductCategory").change(function (){
+        $("#inputProductCategory").change(function () {
             const currentText = $(this).find(":selected").text();
             $("#productCardCategoryName").html(currentText)
         })
 
-        $("#inputProductAddress").change(function(element){
+        $("#inputProductAddress").change(function (element) {
             let location = element.target.value;
-            location= location? location : "Product location here";
+            location = location ? location : "Product location here";
             $('#productLocation').html(location);
         })
 
-        $("#inputContactNumber").keyup(function(element){
+        $("#inputContactNumber").keyup(function (element) {
             let contact = element.target.value;
-            contact= contact? contact : "Contact here";
+            contact = contact ? contact : "Contact here";
             $('#productCardContactNumber').html(contact);
         })
 
@@ -219,7 +226,6 @@
     <%-- uploading image in firebase and--%>
 
 
-
     <%--address auto complete--%>
     <script>
         //tutorial
@@ -229,13 +235,13 @@
         const autoCompleteBox = document.querySelector(".address-autocomplete-box");
 
 
-        locationInputBox.onkeyup = function (element){
+        locationInputBox.onkeyup = function (element) {
             //console.log(event.target.value);
             let addressInputText = element.target.value;
-            if(addressInputText){
+            if (addressInputText) {
                 fetchLocationFromGeoapify(addressInputText);
                 addressSearchInputWrapper.classList.add("active");
-            }else{
+            } else {
                 addressSearchInputWrapper.classList.remove("active");
             }
         }
@@ -250,44 +256,44 @@
              }
          }*/
 
-        function fetchLocationFromGeoapify(locationQueryString){
+        function fetchLocationFromGeoapify(locationQueryString) {
             const requestOptions = {
                 method: 'GET',
             };
 
             const apiKey = "${geoapifyApiKey}";
-            const url = "https://api.geoapify.com/v1/geocode/autocomplete?text="+locationQueryString+"&apiKey="+apiKey;
+            const url = "https://api.geoapify.com/v1/geocode/autocomplete?text=" + locationQueryString + "&apiKey=" + apiKey;
 
             fetch(url, requestOptions)
                 .then(response => response.json())
-                .then(function(result){
+                .then(function (result) {
                     //console.log(result);
                     parseLocationInfo(result);
 
                 }).catch(error => console.log('error', error));
         }
 
-        function parseLocationInfo(result){
+        function parseLocationInfo(result) {
             const features = result["features"];
             //console.log(features);
 
             let addressList = [];
-            for(let i = 0 ; i<features.length ; i++){
+            for (let i = 0; i < features.length; i++) {
                 const feature = features[i];
                 //console.log(feature);
 
                 addressList.push(feature["properties"]["formatted"]);
             }
             //console.log(addressList);
-            addressList = addressList.map( function (data){
-                return "<li>"+ data + "</li>"
+            addressList = addressList.map(function (data) {
+                return "<li>" + data + "</li>"
             })
-            showAddressSuggestions( addressList);
+            showAddressSuggestions(addressList);
         }
 
-        function showAddressSuggestions(addressList){
-            addressList = ["<li>"+locationInputBox.value+"</li>"].concat(addressList);
-            if(addressList.length){
+        function showAddressSuggestions(addressList) {
+            addressList = ["<li>" + locationInputBox.value + "</li>"].concat(addressList);
+            if (addressList.length) {
                 addressList = addressList.join('')
                 autoCompleteBox.innerHTML = addressList;
             }
@@ -299,7 +305,7 @@
             }
         }
 
-        function onSelectAddress(element){
+        function onSelectAddress(element) {
             let address = element.textContent;
             locationInputBox.value = address;
             addressSearchInputWrapper.classList.remove("active"); // hide auto complete
@@ -326,10 +332,10 @@
         // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "${firebaseApiKey}",
-            authDomain: "${firebaseProjectId}"+".firebaseapp.com",
-            databaseURL: "${firebaseProjectId}" +".firebaseio.com",
-            projectId:  "${firebaseProjectId}",
-            storageBucket:  "${firebaseProjectId}"+".appspot.com",
+            authDomain: "${firebaseProjectId}" + ".firebaseapp.com",
+            databaseURL: "${firebaseProjectId}" + ".firebaseio.com",
+            projectId: "${firebaseProjectId}",
+            storageBucket: "${firebaseProjectId}" + ".appspot.com",
             messagingSenderId: "${messagingSenderId}",
             appId: "${firebaseAppId}"
         };
@@ -345,14 +351,14 @@
         onImageSelected(imageInputField, preview, hiddenImageUrlHolderInputField);
 
 
-        function onImageSelected(inputImageField, previewImg, imageUrlHolderHiddenInputField){
+        function onImageSelected(inputImageField, previewImg, imageUrlHolderHiddenInputField) {
             const funcName = "onImageSelected(): ";
             console.log(funcName);
-            inputImageField.addEventListener("change", function() {
-                console.log(funcName+"image selected for logo")
+            inputImageField.addEventListener("change", function () {
+                console.log(funcName + "image selected for logo")
                 if (this.files && this.files[0]) {
-                    uploadToFirebase(this.files[0],function (imageUrl){
-                        console.log(funcName+"adding image url to src")
+                    uploadToFirebase(this.files[0], function (imageUrl) {
+                        console.log(funcName + "adding image url to src")
                         imageUrlHolderHiddenInputField.setAttribute("value", imageUrl);
                         previewImg.setAttribute('src', imageUrl);
                     });
@@ -360,7 +366,7 @@
             });
         }
 
-        function uploadToFirebase(file ,onUploadSuccess){
+        function uploadToFirebase(file, onUploadSuccess) {
             const fileName = file.name;
 
             // Points to the root reference
@@ -371,7 +377,7 @@
 
             // space ref where image will be stored
             const currentDate = new Date().getTime();
-            const spaceRef = imagesStorageRef.child(currentDate+"-product-"+fileName);
+            const spaceRef = imagesStorageRef.child(currentDate + "-product-" + fileName);
 
             const uploadTask = spaceRef.put(file);
             /* .then(function (snapshot) {
@@ -395,8 +401,8 @@
                     let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     console.log('Upload is ' + progress + '% done');
                     const imageUploadProgressBar = document.querySelector("#imageUploadProgressBar");
-                    imageUploadProgressBar.setAttribute("style","width: "+progress+"%;");
-                    imageUploadProgressBar.setAttribute("aria-valuenow", progress+"");
+                    imageUploadProgressBar.setAttribute("style", "width: " + progress + "%;");
+                    imageUploadProgressBar.setAttribute("aria-valuenow", progress + "");
                 },
                 (error) => {
                     // Handle unsuccessful uploads
@@ -411,6 +417,5 @@
         }
     </script>
 
-</div>
 </body>
 </html>
