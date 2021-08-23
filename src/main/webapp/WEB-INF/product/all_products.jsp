@@ -116,8 +116,9 @@
                     </div>
 
                     <div class="my-3">
-                            <%--for logged in user and admin only.--%>
-                        <c:if test="${pageContext.request.userPrincipal.name != null}">
+
+
+                        <c:if test="${pageContext.request.userPrincipal.name != null && category == null}">
                             <a href="/user/product/${product.id}/edit/" type="button"
                                class="btn btn-primary">EDIT</a>
                             <a
