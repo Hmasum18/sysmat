@@ -16,7 +16,7 @@
     <c:if test="${pageContext.request.userPrincipal.name != null}">
         <div class="row mb-3">
             <div class="mt-3">
-                <h3>Product(Pending verification)</h3>
+                <h3>${category!=null?category.name:"Product"}(Pending verification)</h3>
             </div>
                 <%--error--%>
             <c:if test="${productListUnverified == null || productListUnverified.size() == 0}">
@@ -73,8 +73,9 @@
     </c:if>
 
     <div class="row mb-3">
+
         <div class="my-3">
-            <h3>Product</h3>
+            <h3>${category!=null?category.name:"Product"}</h3>
         </div>
         <%--error--%>
         <c:if test="${productList == null || productList.size() == 0}">

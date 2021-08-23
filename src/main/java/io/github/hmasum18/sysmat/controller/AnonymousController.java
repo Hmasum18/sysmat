@@ -45,6 +45,7 @@ public class AnonymousController {
     @GetMapping("/category/{category_id}")
     public String getAllProduct(ModelMap modelMap, @PathVariable int category_id) {
         Category category = categoryService.getCategory(category_id).get();
+        modelMap.put("category", category);
 
         // verified products
         Optional<List<Product>> productList = productService
