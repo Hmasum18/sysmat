@@ -46,6 +46,7 @@
                             <h3 class="mb-0 font-weight-semibold">
                                 <b style="font-size: 1.5em;">৳</b>${product.price}</h3>
                             <p class="btn btn-outline-success mt-4 font-weight-bold">${product.mobileNumbers}</p>
+                            <p class="text-muted">Uploaded by: ${product.user.username}</p>
                         </div>
                     </div>
                 </div>
@@ -108,6 +109,7 @@
                                 <h3 class="mb-0 font-weight-semibold">
                                     <b style="font-size: 1.5em;">৳</b>${product.price}</h3>
                                 <p class="btn btn-outline-success mt-4 font-weight-bold">${product.mobileNumbers}</p>
+                                <p class="text-muted">Uploaded by: ${product.user.username}</p>
                             </div>
                         </div>
 
