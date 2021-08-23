@@ -111,8 +111,8 @@
             </form>
         </div>
 
-        <!--Profile Card 5-->
-        <%--https://codepen.io/halidaa/pen/GGZqqg--%>
+      <%--  <!--Profile Card 5-->
+        &lt;%&ndash;https://codepen.io/halidaa/pen/GGZqqg&ndash;%&gt;
         <div class="col-md-3 mt-4 mx-4 product">
             <div class="product-card-body"
                  style="z-index: 0; transform: translate3d(0px, 0px, 0px) rotateX(0deg);"
@@ -131,9 +131,32 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div>--%>
 
+        <%--https://bbbootstrap.com/snippets/bootstrap-ecommerce-item-products-list-description-and-rating-icons-83216490--%>
+
+        <div class="col-md-6">
+            <div class="card card-body">
+                <div class="row media justify-content-center align-items-center align-items-lg-start text-center text-lg-left flex-column flex-lg-row">
+                    <div class="col-md-3 mr-2 mb-3 mb-lg-0">
+                        <img  id="productCardImage" src="/images/image-placeholder.png"
+                              width="150" alt="Product Image">
+                    </div>
+                    <div class="col-md-6 media-body text-left ">
+                        <h6 class="media-title font-weight-bold" id="productCardProductName">Product Name Here</h6>
+                        <p id="productCardCategoryName" class="text-muted" >Phones</p>
+                        <p id="productCardDescription" class="mb-3">Product description here.</p>
+                        <p id="productLocation" class="mb-0 text-muted">location</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h3 id="productCardPrice" class="mb-0 font-weight-semibold">
+                            <b style="font-size: 1.5em;">৳</b>000.00</h3>
+                        <p id="productCardContactNumber" class="btn btn-outline-success mt-4 font-weight-bold">Contact here</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
 
 
 
@@ -157,7 +180,7 @@
             let price = parseFloat(element.target.value);
             price = !isNaN(price) ? price: 0.00;
             //console.log(price);
-            $("#productCardPrice").html(price+"<b style=\"font-size: 1.5em;\">৳</b>");
+            $("#productCardPrice").html("<b style=\"font-size: 1.5em;\">৳</b>"+price);
         })
 
 
@@ -184,7 +207,7 @@
 
         $("#inputContactNumber").keyup(function(element){
             let contact = element.target.value;
-            contact= contact? "Contact: "+contact : "Contact here";
+            contact= contact? contact : "Contact here";
             $('#productCardContactNumber').html(contact);
         })
 

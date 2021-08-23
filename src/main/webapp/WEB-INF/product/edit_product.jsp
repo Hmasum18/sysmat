@@ -113,33 +113,34 @@
                 </div>
 
                 <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="submit" class="btn btn-primary">UPDATE</button>
                 </div>
             </form>
         </div>
 
-        <!--Profile Card 5-->
-        <%--https://codepen.io/halidaa/pen/GGZqqg--%>
-        <div class="col-md-3 mt-4 mx-4 product">
-            <div class="product-card-body"
-                 style="z-index: 0; transform: translate3d(0px, 0px, 0px) rotateX(0deg);"
-                 tabindex="0">
 
-                <img class="productCardImage" id="productCardImage" src="${product.images}" alt="Product image">
-                <div class="card-content">
-                    <p class="category-name" id="productCardCategoryName">${product.category.name}</p>
-                    <h2 id="productCardProductName">${product.name}</h2>
-                    <p id="productCardPrice" class="productLocation">${product.price}<b style="font-size: 1.5em;">৳</b></p>
-                    <p id="productLocation">${product.location}</p>
-                    <p class="read-more" id="productCardContactNumber">${product.mobileNumbers}</p>
-                    <div class="description">
-                        <p id="productCardDescription">${product.description}</p>
-                        <p></p>
-                        <p class="date" id="productCardDate">${product.created}</p>
+        <%--product info preview--%>
+        <div class="col-md-6">
+            <div class="card card-body">
+                <div class="row media justify-content-center align-items-center align-items-lg-start text-center text-lg-left flex-column flex-lg-row">
+                    <div class="col-md-3 mr-2 mb-3 mb-lg-0">
+                        <img  id="productCardImage" src="${product.images}" width="150" alt="Product Image">
+                    </div>
+                    <div class="col-md-6 media-body text-left ">
+                        <h6 class="media-title font-weight-bold" id="productCardProductName">${product.name}</h6>
+                        <p id="productCardCategoryName" class="text-muted" >${product.category.name}</p>
+                        <p id="productCardDescription" class="mb-3">${product.description}</p>
+                        <p id="productLocation" class="mb-0 text-muted">${product.location}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h3 id="productCardPrice" class="mb-0 font-weight-semibold">
+                            <b style="font-size: 1.5em;">৳</b>${product.price}</h3>
+                        <p id="productCardContactNumber"
+                           class="btn btn-outline-success mt-4 font-weight-bold">${product.mobileNumbers}</p>
                     </div>
                 </div>
+
             </div>
-        </div>
     </div>
 
 

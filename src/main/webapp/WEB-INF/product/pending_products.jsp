@@ -31,48 +31,46 @@
        <c:forEach items="${productList}" step="4" varStatus="i">
            <div class="row">
                <c:forEach items="${productList}" var="product" begin="${i.index}" end="${i.index+3}" varStatus="j">
-                   <!--Profile Card 5-->
-                   <%--https://codepen.io/halidaa/pen/GGZqqg--%>
-                   <div class="col-md-3 mt-4 mx-4 product">
-                       <div class="product-card-body"
-                            style="z-index: 0; transform: translate3d(0px, 0px, 0px) rotateX(0deg);"
-                            tabindex="0">
-
-                           <img class="productCardImage" id="productCardImage" src="${product.images}" alt="Product image">
-                           <div class="card-content">
-                               <p class="category-name" id="productCardCategoryName">${product.category.name}</p>
-                               <h2 id="productCardProductName">${product.name}</h2>
-                               <p id="productLocation">${product.location}</p>
-                               <p class="read-more" id="productCardContactNumber">Contact: ${product.mobileNumbers}</p>
-                               <div class="description">
-                                   <p id="productCardDescription">${product.description}</p>
-                                   <p></p>
-                                   <p class="date" id="productCardDate">${product.created}</p>
+                   <div class="col-md-6 mt-4 product">
+                       <div class="card card-body">
+                           <div class="row media justify-content-center align-items-center align-items-lg-start text-center text-lg-left flex-column flex-lg-row">
+                               <div class="col-md-3 mr-2 mb-3 mb-lg-0">
+                                   <img src="${product.images}" width="150" alt="Product Image">
+                               </div>
+                               <div class="col-md-6 media-body text-left ">
+                                   <h6 class="media-title font-weight-bold">${product.name}</h6>
+                                   <p class="text-muted">${product.category.name}</p>
+                                   <p class="mb-3">${product.description}</p>
+                                   <p class="mb-0 text-muted">${product.location}</p>
+                               </div>
+                               <div class="col-md-3">
+                                   <h3 class="mb-0 font-weight-semibold">
+                                       <b style="font-size: 1.5em;">৳</b>${product.price}</h3>
+                                   <p class="btn btn-outline-success mt-4 font-weight-bold">${product.mobileNumbers}</p>
+                                   <p class="text-muted">Uploaded by: ${product.user.username}</p>
                                </div>
                            </div>
-                       </div>
 
+                       </div>
                        <div class="my-3">
-                               <%--for logged in user and admin only.--%>
-                           <c:if test="${pageContext.request.userPrincipal.name != null}">
-                               <a href="/user/product/${product.id}/edit/" type="button" class="btn btn-primary">EDIT</a>
-                               <a
-                                       type="submit"
-                                       class="btn btn-danger productDeleteButton"
-                                       data-product-id = "${product.id}"
-                                       data-product-logo= "${product.images}"
-                                       data-bs-toggle="modal"
-                                       data-bs-target=".productDeleteModal">
-                                   DELETE
-                               </a>
-                           </c:if>
-                           <c:if test="${pageContext.request.userPrincipal.toString().contains(\"ROLE_ADMIN\")}">
-                               <a href="/admin/product/${product.id}/verify" type="button" class="btn btn-success">VERIFY</a>
-                           </c:if>
-                       </div>
-
+                           <%--for logged in user and admin only.--%>
+                       <c:if test="${pageContext.request.userPrincipal.name != null}">
+                           <a href="/user/product/${product.id}/edit/" type="button" class="btn btn-primary">EDIT</a>
+                           <a
+                                   type="submit"
+                                   class="btn btn-danger productDeleteButton"
+                                   data-product-id = "${product.id}"
+                                   data-product-logo= "${product.images}"
+                                   data-bs-toggle="modal"
+                                   data-bs-target=".productDeleteModal">
+                               DELETE
+                           </a>
+                       </c:if>
+                       <c:if test="${pageContext.request.userPrincipal.toString().contains(\"ROLE_ADMIN\")}">
+                           <a href="/admin/product/${product.id}/verify" type="button" class="btn btn-success">VERIFY</a>
+                       </c:if>
                    </div>
-
+                   </div>
 
                </c:forEach>
            </div>

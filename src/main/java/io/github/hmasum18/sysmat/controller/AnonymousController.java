@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class UniversalController {
+public class AnonymousController {
     @Autowired
     CategoryRepository categoryRepository;
 

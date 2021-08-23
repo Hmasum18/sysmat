@@ -56,7 +56,7 @@ public class AdminController {
 
         System.out.println("#addCategory(): saved category:" + category);
 
-        return "redirect:/admin/category/";
+        return "redirect:/";
     }
 
     @GetMapping("/category/{categoryId}/edit")
@@ -80,14 +80,14 @@ public class AdminController {
 
         System.out.println("#addCategory(): saved category:" + category);
 
-        return "redirect:/admin/category/";
+        return "redirect:/";
     }
 
     @PostMapping(value = "/category/{categoryId}/delete")
     public String deleteCategory(@PathVariable int categoryId) {
         System.out.println("deleteCategory(): " + categoryId);
         categoryRepository.delete(categoryRepository.findById(categoryId).get());
-        return "redirect:/admin/category/";
+        return "redirect:/";
     }
 
     @GetMapping("category/")

@@ -89,10 +89,14 @@ public class UserController {
         Optional<Product> prevProduct = productService.getProduct(productId);
         product.setCreated(prevProduct.get().getCreated());
         product.setVerified(prevProduct.get().isVerified());
+        product.setUser(prevProduct.get().getUser());
 
-        product.setUser(userService.getLoggedInUSer());
         product = productService.save(product);
         System.out.println("addProduct(): " + product);
+
+        if(userService.getLoggedInUSer().getRoles().equals("ROLE_ADMIN")){
+            return "redirect:/admin/product/pending/";
+        }
 
         return "redirect:/user/product/";
     }

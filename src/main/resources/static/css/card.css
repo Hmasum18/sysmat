@@ -34,7 +34,7 @@
 
 /*==============product card=====================*/
 
-.product .product-card-body {
+/*.product .product-card-body {
     background: #7f4fca;
     border-radius: 5px;
     max-height: 350px;
@@ -81,8 +81,8 @@
 
 .product h2 {
     font-size: 1.25em;
-   /* margin: 5px 0;*/
-    /*min-height: 50px;*/
+   !* margin: 5px 0;*!
+    !*min-height: 50px;*!
 }
 
 .product .date {
@@ -123,7 +123,7 @@
     opacity: 0.3;
 }
 
-/*=========== the line =======================*/
+!*=========== the line =======================*!
 .product .product-card-body
 .card-content:before {
     content: "";
@@ -138,7 +138,7 @@
 .product .product-card-body .card-content:before {
     background-color: #FF6B6B;
 }
-/*=============line end======================*/
+!*=============line end======================*!
 
 
 .product .description {
@@ -153,8 +153,8 @@
 
 .description p:first-child {
     overflow: hidden;
-    /*max-height: 100px;*/
-    /*max-height: 100%;*/
-}
+    !*max-height: 100px;*!
+    !*max-height: 100%;*!
+}*/
 
 

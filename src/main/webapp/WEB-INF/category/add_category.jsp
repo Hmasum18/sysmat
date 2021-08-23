@@ -74,7 +74,7 @@
             <div class="card category-card">
                 <div class="card-img-block">
                     <img id="category-logo" class="card-img-top"
-                         src="https://firebasestorage.googleapis.com/v0/b/fir-tutorial-one-74d1a.appspot.com/o/images%2F1629406343438-teacher.png?alt=media&token=8655567b-55f4-4ba8-85e8-7ed0b42b574e"
+                         src="/images/image-placeholder.png"
                          style="max-width: 40rem; max-height: 40rem"
                          alt="Card image cap">
                 </div>
