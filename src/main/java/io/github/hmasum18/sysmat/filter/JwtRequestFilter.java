@@ -33,7 +33,7 @@ public class JwtRequestFilter extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response
             , FilterChain filterChain) throws ServletException, IOException {
-        System.out.println(TAG + "doFilterInternal: " + request.getRequestURI());
+        System.out.println(TAG + "doFilterInternal: "+ request.getMethod() +":"+ request.getRequestURI());
         Optional<String> jwtToken = this.readServletCookie(request, "jwt_token");
 
         String authenticationMsg = TAG+ (SecurityContextHolder.getContext().getAuthentication() != null?
@@ -45,11 +45,16 @@ public class JwtRequestFilter extends OncePerRequestFilter{
             String jwt = jwtToken.get();
             String username = jwtUtil.extractUsername(jwt);
             this.setAuthentication(username,jwt, request, response);
-        }else if(request.getRequestURI().equals("/auth/login")){
+        }else if(request.getRequestURI().equals("/auth/login") && request.getMethod().equalsIgnoreCase("post")){
             System.out.println(TAG + "jwt token not found in cookies");
             String username = request.getParameter("username");
+            String password = request.getParameter("password");
             System.out.println(TAG + " Yo username: " + username);
-            this.setAuthentication(username,null, request, response);
+            if(userDetailsService.validateUserCredential(username, password)){
+                this.setAuthentication(username,null, request, response);
+            }else{
+                System.out.println(TAG+password+" is not valid.");
+            }
         }
 
         // continue default filter chain
@@ -73,6 +78,7 @@ public class JwtRequestFilter extends OncePerRequestFilter{
 
                     springAuthToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(springAuthToken);
+                    System.out.println(TAG+"setAuthentication(): authentication updated.");
                 }
             }
         }catch (UsernameNotFoundException e) {

@@ -84,22 +84,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .and()
                 .formLogin()
                 .loginPage("/auth/login")
-               /* .successHandler(new AuthenticationSuccessHandler() {
-                    @Override
-                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-                        String username = userDetails.getUsername();
-
-
-                        System.out.println("onAuthenticationSuccess(): cleared cookie");
-
-                        String redirectUrl = "/";
-                        if(!userRepository.findByUsername(username).get().isVerified()){
-                            redirectUrl = "login?verified=false";
-                        }
-                        response.sendRedirect(redirectUrl);
-                    }
-                })*/
                 .failureHandler(new AuthenticationFailureHandler() {
                     @Override
                     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {

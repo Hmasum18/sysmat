@@ -68,7 +68,7 @@ public class AuthController {
         boolean isVerificationCodeSent = sendVerificationCode(user);
 
         if(isVerificationCodeSent)
-            userService.save(user);
+            userService.save(user, user.getPassword());
         else{
             modelMap.put("emailError","Email account is not valid.");
             return "auth/registration";
@@ -177,8 +177,7 @@ public class AuthController {
 
         if(userService.matchPassword(currentPassword)){
             if(newPassword !=null && !newPassword.isEmpty()){
-                user.setPassword(newPassword);
-                user = userService.save(user);
+                user = userService.save(user, newPassword);
             }
             userProfile.setUser(user);
             userProfileService.save(userProfile);
