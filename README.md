@@ -6,6 +6,7 @@
 
 ### Technology
 - Backend: Spring-boot
+    - Spring web
     - Spring security for authentication
     - Spring mail for verification
     - Spring data JPA
