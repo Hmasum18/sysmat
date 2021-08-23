@@ -73,27 +73,27 @@
 
             </div>
 
-            <form:form method="POST" modelAttribute="user">
+            <form method="POST">
 
                 <div class="mb-3">
-                    <form:input type="text"
-                                path="username"
+                    <input type="text"
+                                name="username"
                                 class="form-control"
                                 placeholder="Username"
-                                autofocus="true"/>
+                                autofocus="true" required/>
                 </div>
 
                 <div class="mb-3">
-                    <form:input type="password"
-                                path="password"
+                    <input type="password"
+                                name="password"
                                 class="form-control"
-                                placeholder="Password"/>
+                                placeholder="Password" required/>
                 </div>
 
                 <div class="d-grid gap-2 col-12 justify-content-auto">
                     <button class="btn btn-md btn-primary btn-block" type="submit">Login</button>
                 </div>
-            </form:form>
+            </form>
             <div class="mb-3" style="margin-top: 10px">>
                 <a class="pe-auto text-primary" href="/auth/registration" >Not registered? Register here</a>
             </div>
