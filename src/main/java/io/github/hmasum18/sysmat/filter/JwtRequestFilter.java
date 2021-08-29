@@ -33,29 +33,31 @@ public class JwtRequestFilter extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response
             , FilterChain filterChain) throws ServletException, IOException {
+        String funcName = "doFilterInternal(): ";
+
         System.out.println(TAG + "doFilterInternal: "+ request.getMethod() +":"+ request.getRequestURI());
         Optional<String> jwtToken = this.readServletCookie(request, "jwt_token");
 
         String authenticationMsg = TAG+ (SecurityContextHolder.getContext().getAuthentication() != null?
-                "auth is not null":  "auth is null");
+                "found authentication in the context":  "auth is null");
         System.out.println(authenticationMsg);
 
-        if (jwtToken.isPresent()) {
-            System.out.println(TAG + "found jwt token in cookies");
-            String jwt = jwtToken.get();
-            String username = jwtUtil.extractUsername(jwt);
-            this.setAuthentication(username,jwt, request, response);
-        }else if(request.getRequestURI().equals("/auth/login") && request.getMethod().equalsIgnoreCase("post")){
-            System.out.println(TAG + "jwt token not found in cookies");
+         if(request.getRequestURI().equals("/auth/login") && request.getMethod().equalsIgnoreCase("post")){
+            System.out.println(TAG + funcName + "login new user");
             String username = request.getParameter("username");
             String password = request.getParameter("password");
-            System.out.println(TAG + " Yo username: " + username);
+            System.out.println(TAG  + funcName  + " username: " + username);
             if(userDetailsService.validateUserCredential(username, password)){
                 this.setAuthentication(username,null, request, response);
             }else{
-                System.out.println(TAG+password+" is not valid.");
+                System.out.println(TAG + funcName +" invalid username or password.");
             }
-        }
+        }else if (jwtToken.isPresent()) {
+             System.out.println(TAG  + funcName  + "found jwt token in cookies");
+             String jwt = jwtToken.get();
+             String username = jwtUtil.extractUsername(jwt);
+             this.setAuthentication(username,jwt, request, response);
+         }
 
         // continue default filter chain
         filterChain.doFilter(request, response);
@@ -63,13 +65,15 @@ public class JwtRequestFilter extends OncePerRequestFilter{
 
     private void setAuthentication(String username, String jwt, HttpServletRequest request,
                                    HttpServletResponse response){
+        String funcName = "setAuthentication(): ";
         try {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if (userDetails != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                // user is logging in
                 if(jwt == null){
                     jwt = jwtUtil.generateToken(userDetails);
                     this.saveJwtTokenInCookie(response, jwt);
-                    System.out.println(TAG + " saved token: " + jwt);
+                    System.out.println(TAG + funcName + " new jwt token saved in the cookie.");
                 }
                 if(jwtUtil.validateToken(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken springAuthToken
@@ -78,13 +82,13 @@ public class JwtRequestFilter extends OncePerRequestFilter{
 
                     springAuthToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(springAuthToken);
-                    System.out.println(TAG+"setAuthentication(): authentication updated.");
+                    System.out.println(TAG+ funcName +" authentication updated.");
                 }
             }
         }catch (UsernameNotFoundException e) {
-            System.out.println(TAG+username+"not found in the database.");
+            System.out.println(TAG+ funcName +username+" not found in the database.");
         }catch (Exception e){
-            System.out.println(TAG+" Exception while setting authentication.");
+            System.out.println(TAG+ funcName +" Exception while setting authentication.");
             e.printStackTrace();
         }
     }

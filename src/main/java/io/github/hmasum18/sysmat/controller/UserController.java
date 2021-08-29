@@ -87,6 +87,10 @@ public class UserController {
         Optional<Category> categoryOptional = categoryService.getCategory(categoryId);
         product.setCategory(categoryOptional.get());
 
+        if(product.getUser().getId() == userService.getLoggedInUser().getId()){
+
+        }
+
         Optional<Product> prevProduct = productService.getProduct(productId);
         product.setCreated(prevProduct.get().getCreated());
         product.setVerified(prevProduct.get().isVerified());

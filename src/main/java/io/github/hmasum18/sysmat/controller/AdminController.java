@@ -104,7 +104,7 @@ public class AdminController {
     @GetMapping("product/pending")
     public String getPendingProducts(ModelMap modelMap) {
         Optional<List<Product>> productList = productService.getAllProduct(false);
-        productList.ifPresent(products -> {
+            productList.ifPresent(products -> {
             modelMap.put("productList", products);
         });
         putFirebaseCredentials(modelMap);
